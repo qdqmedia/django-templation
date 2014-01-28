@@ -22,6 +22,14 @@ Documentation
 
 The full documentation is at http://django-templation.rtfd.org.
 
+Dependencies
+-------------
+
+.. code-block :: bash
+
+	sudo apt-get install build-essential python-dev libxml2-dev python-pip lxml
+
+
 Quickstart
 ----------
 
@@ -31,7 +39,7 @@ Install django-templation::
 
 Then use it in a project::
 
-    import django-templation
+    import templation
 
 Features
 --------

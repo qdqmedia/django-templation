@@ -17,9 +17,13 @@ try:
             "django.contrib.contenttypes",
             "django.contrib.sites",
             "templation",
+            "tests",
         ],
         SITE_ID=1,
         NOSE_ARGS=['-s'],
+
+        TEMPLATION_DAV_ROOT='/tmp/dav/',
+        TEMPLATION_RESOURCE_MODEL='tests.MyResource',
     )
 
     from django_nose import NoseTestSuiteRunner
