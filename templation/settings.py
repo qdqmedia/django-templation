@@ -1,6 +1,9 @@
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
 
+
+PROVIDER_NAME = getattr(settings, 'TEMPLATION_PROVIDER_NAME', 'templation')
+
 try:
     DAV_ROOT = settings.TEMPLATION_DAV_ROOT
 except AttributeError:

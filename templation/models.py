@@ -2,8 +2,9 @@
 import os.path
 from django.db import models
 from django.conf import settings
+from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
-from .settings import DAV_ROOT, RESOURCE_MODEL
+from .settings import DAV_ROOT, PROVIDER_NAME, RESOURCE_MODEL
 
 
 class ResourceAccess(models.Model):
@@ -14,6 +15,7 @@ class ResourceAccess(models.Model):
     class Meta:
         verbose_name = _('ResourceAccess')
         verbose_name_plural = _('ResourceAccesses')
+        unique_together = ('user', 'resource')
 
     @property
     def dav_path(self):
@@ -21,4 +23,16 @@ class ResourceAccess(models.Model):
         Returns the WebDav path for this resource
         """
 
-        return os.path.join(DAV_ROOT, self.user.id, self.resource.id)
+        return os.path.join('/' + PROVIDER_NAME, str(self.resource.id)) + '/'
+
+
+def create_resource_access(sender, instance, created, **kwargs):
+    if created:
+        # Initialize folders (TODO: copy template)
+        try:
+            os.makedirs(os.path.join(DAV_ROOT, str(instance.resource.id)))
+        except OSError as e:
+            if e.errno != 17:
+                raise
+
+post_save.connect(create_resource_access, sender=ResourceAccess)

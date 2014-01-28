@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate
 from wsgidav.wsgidav_app import DEFAULT_CONFIG
 from wsgidav.wsgidav_app import WsgiDAVApp
-from .settings import DAV_ROOT
+from .settings import DAV_ROOT, PROVIDER_NAME
 from .models import ResourceAccess
 
 
@@ -10,22 +10,17 @@ class TemplationDomainController(object):
         return True
 
     def getDomainRealm(self, inputRelativeURL, environ):
-        path = environ.get('PATH_INFO', '').split('/')[:4]
-        path[0] = '/templation'
-        return '/'.join(path)
+        return environ.get('PATH_INFO').split('/')[1]
 
     def authDomainUser(self, realmname, username, password, environ):
         user = authenticate(username=username, password=password)
-        if user:
-            try:
-                return ResourceAccess.objects.get(user=user, resource__id=realmname.split('/')[3])
-            except ResourceAccess.DoesNotExist:
-                return False
-        else:
+        try:
+            return ResourceAccess.objects.get(user=user, resource__id=realmname)
+        except ResourceAccess.DoesNotExist:
             return False
 
 config = DEFAULT_CONFIG.copy()
-config['provider_mapping']['templation'] = DAV_ROOT
+config['provider_mapping'][PROVIDER_NAME] = DAV_ROOT
 config['user_mapping'][DAV_ROOT] = {None: None}
 config['domaincontroller'] = TemplationDomainController()
 config['acceptdigest'] = False
@@ -39,6 +34,6 @@ class WsgiDAVMiddleware(object):
         self.django_app = django_app
 
     def __call__(self, environ, start_response):
-        if environ.get('PATH_INFO').startswith(DAV_ROOT):
+        if environ.get('PATH_INFO').startswith('/' + PROVIDER_NAME):
             return wsgidav_app(environ, start_response)
         return self.django_app(environ, start_response)
