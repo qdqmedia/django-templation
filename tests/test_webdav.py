@@ -8,10 +8,7 @@ import base64
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from webtest import TestApp, AppError
-
-
-from templation.models import ResourceAccess
-from tests.models import MyResource
+from templation.settings import get_resource_access_model, get_resource_model
 
 
 class TestWebDav(unittest.TestCase):
@@ -30,8 +27,8 @@ class TestWebDav(unittest.TestCase):
         self.user_auth = 'Basic ' + base64.encodestring('john:top_secret').replace('\n', '')
 
         # Create WebDav Access
-        self.resource = MyResource.objects.create(name='Foo', id=1234)
-        self.resource_access = ResourceAccess.objects.create(user=self.user, resource=self.resource)
+        self.resource = get_resource_model().objects.create(name='Foo', id=1234)
+        self.resource_access = get_resource_access_model().objects.create(user=self.user, resource=self.resource)
 
     def test_list_ok(self):
         app = TestApp(self.application)

@@ -7,12 +7,13 @@ from django.utils.translation import ugettext_lazy as _
 from .settings import DAV_ROOT, PROVIDER_NAME, RESOURCE_MODEL
 
 
-class ResourceAccess(models.Model):
+class AbstractResourceAccess(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     resource = models.ForeignKey(RESOURCE_MODEL)
 
     class Meta:
+        abstract = True
         verbose_name = _('ResourceAccess')
         verbose_name_plural = _('ResourceAccesses')
         unique_together = ('user', 'resource')
@@ -23,6 +24,12 @@ class ResourceAccess(models.Model):
         """
 
         return os.path.join('/' + PROVIDER_NAME, str(self.resource.id)) + '/'
+
+
+class ResourceAccess(AbstractResourceAccess):
+    """
+    Resource Access Model
+    """
 
 
 def create_resource_access(sender, instance, created, **kwargs):
