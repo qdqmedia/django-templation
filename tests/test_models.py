@@ -20,7 +20,7 @@ class TestResourceAccess(unittest.TestCase):
         self.resource_access = ResourceAccess.objects.create(user=self.user, resource=self.resource)
 
     def test_webdav_path(self):
-        self.assertEqual(self.resource_access.dav_path, '/templation/1234/')
+        self.assertEqual(self.resource_access.get_absolute_url(), '/templation/1234/')
 
     def tearDown(self):
         self.resource_access.delete()

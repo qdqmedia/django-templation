@@ -17,8 +17,7 @@ class ResourceAccess(models.Model):
         verbose_name_plural = _('ResourceAccesses')
         unique_together = ('user', 'resource')
 
-    @property
-    def dav_path(self):
+    def get_absolute_url(self):
         """
         Returns the WebDav path for this resource
         """

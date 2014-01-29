@@ -11,6 +11,14 @@ try:
 except ImportError:
     from distutils.core import setup
 
+
+def parse_requirements(requirements):
+    with open(requirements) as f:
+        return [l.strip('\n') for l in f if l.strip('\n') and not l.startswith('#')]
+
+requirements_file = 'requirements.txt'
+install_reqs = parse_requirements(os.path.abspath(os.path.join(os.path.dirname(__file__), requirements_file)))
+
 version = templation.__version__
 
 if sys.argv[-1] == 'publish':
@@ -35,8 +43,7 @@ setup(
         'templation',
     ],
     include_package_data=True,
-    install_requires=[
-    ],
+    install_requires=install_reqs,
     license="BSD",
     zip_safe=False,
     keywords='django-templation',
