@@ -4,7 +4,7 @@ from django.db import models
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
-from .settings import DAV_ROOT, PROVIDER_NAME, RESOURCE_MODEL
+from .settings import DAV_ROOT, PROVIDER_NAME, RESOURCE_MODEL, RESOURCE_ACCESS_MODEL_INITIALIZER
 
 
 class AbstractResourceAccess(models.Model):
@@ -40,5 +40,6 @@ def create_resource_access(sender, instance, created, **kwargs):
         except OSError as e:
             if e.errno != 17:
                 raise
+        RESOURCE_ACCESS_MODEL_INITIALIZER(instance)
 
 post_save.connect(create_resource_access, sender=ResourceAccess)

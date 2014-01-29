@@ -5,6 +5,7 @@ from django.db.models import get_model
 
 # WebDav settings
 PROVIDER_NAME = getattr(settings, 'TEMPLATION_PROVIDER_NAME', 'templation')
+RESOURCE_ACCESS_MODEL_INITIALIZER = getattr(settings, 'TEMPLATION_RESOURCE_ACCESS_MODEL_INITIALIZER', lambda instance: None)
 
 try:
     DAV_ROOT = settings.TEMPLATION_DAV_ROOT
