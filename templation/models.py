@@ -37,9 +37,9 @@ def create_resource_access(sender, instance, created, **kwargs):
         # Initialize folders (TODO: copy template)
         try:
             os.makedirs(os.path.join(DAV_ROOT, str(instance.resource.id)))
+            RESOURCE_ACCESS_MODEL_INITIALIZER(instance)
         except OSError as e:
             if e.errno != 17:
                 raise
-        RESOURCE_ACCESS_MODEL_INITIALIZER(instance)
 
 post_save.connect(create_resource_access, sender=ResourceAccess)
