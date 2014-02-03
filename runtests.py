@@ -43,7 +43,7 @@ try:
             'django.middleware.csrf.CsrfViewMiddleware',
             'django.contrib.auth.middleware.AuthenticationMiddleware',
             'django.contrib.messages.middleware.MessageMiddleware',
-            'templation.middleware.TemplateProcessException',
+            'templation.middleware.TemplationMiddleware',
         ),
 
         TEMPLATION_BOILERPLATE_FOLDER=os.path.join(BASE_DIR, 'tests', 'boilerplate')

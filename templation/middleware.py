@@ -1,4 +1,6 @@
 import sys
+import logging
+from threading import local
 from django.contrib.auth import authenticate
 from wsgidav.wsgidav_app import DEFAULT_CONFIG
 from wsgidav.wsgidav_app import WsgiDAVApp
@@ -6,6 +8,9 @@ from django.views import debug
 from .settings import get_resource_access_model, import_from_path, \
     DEBUG, DUMP_REPORT_STRATEGY, DUMP_EXCEPTIONS, DAV_ROOT, PROVIDER_NAME
 from .models import ResourceAccess
+
+logger = logging.getLogger(__name__)
+thread_vars = local()  # see SessionThreadMiddleware for more info.
 
 
 class TemplationDomainController(object):
@@ -57,11 +62,30 @@ def dump_report_strategy(request):
     return bool(get_resource_access_model().objects.filter(user=request.user))
 
 
-class TemplateProcessException(object):
+class TemplationMiddleware(object):
     def __init__(self):
         self.strategy = import_from_path(DUMP_REPORT_STRATEGY)
 
+    def process_request(self, request):
+        """
+        Oh Nasty hacks... Since static finders and template loaders can't load
+        the request without option to adapt, we need to keep the request
+        somewhere accesible.
+        """
+
+        user = getattr(request, 'user', {})
+        thread_vars.user_id = getattr(user, 'id', None)
+
+    def process_response(self, request, response):
+        """ Clean the house for reusable threads. """
+
+        thread_vars.pop('user_id', None)
+        return response
+
     def process_exception(self, request, exception):
         if DEBUG or exception in DUMP_EXCEPTIONS and self.strategy(request):
-
-            return debug.technical_500_response(request, *sys.exc_info())
+            exc_info = sys.exc_info()
+            exc_info.update({
+                # remove the following info.
+            })
+            return debug.technical_500_response(request, *exc_info)
