@@ -10,7 +10,7 @@ from .settings import get_resource_access_model, import_from_path, \
 from .models import ResourceAccess
 
 logger = logging.getLogger(__name__)
-thread_vars = local()  # see SessionThreadMiddleware for more info.
+_thread_vars = local()  # see SessionThreadMiddleware for more info.
 
 
 class TemplationDomainController(object):
@@ -66,6 +66,14 @@ class TemplationMiddleware(object):
     def __init__(self):
         self.strategy = import_from_path(DUMP_REPORT_STRATEGY)
 
+    @classmethod
+    def _clean_thread_vars(cls):
+        """ Clean the house for reusable threads. """
+        try:
+            del _thread_vars.user_id
+        except AttributeError:
+            pass
+
     def process_request(self, request):
         """
         Oh Nasty hacks... Since static finders and template loaders can't load
@@ -74,18 +82,14 @@ class TemplationMiddleware(object):
         """
 
         user = getattr(request, 'user', {})
-        thread_vars.user_id = getattr(user, 'id', None)
+        _thread_vars.user_id = getattr(user, 'id', None)
 
     def process_response(self, request, response):
-        """ Clean the house for reusable threads. """
-        try:
-            del thread_vars.user_id
-        except AttributeError:
-            pass
-
+        self._clean_thread_vars()
         return response
 
     def process_exception(self, request, exception):
+        self._clean_thread_vars()
         if DEBUG or exception in DUMP_EXCEPTIONS and self.strategy(request):
             exc_info = sys.exc_info()
             exc_info.update({
