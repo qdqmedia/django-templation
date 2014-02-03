@@ -3,5 +3,5 @@ from .views import index
 
 urlpatterns = patterns(
     '',
-    url(r'^index/$', index, name='index'),
+    url(r'^index/(?P<pk>\d+)/$', index, name='index'),
 )

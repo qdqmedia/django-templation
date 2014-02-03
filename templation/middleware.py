@@ -6,7 +6,8 @@ from wsgidav.wsgidav_app import DEFAULT_CONFIG
 from wsgidav.wsgidav_app import WsgiDAVApp
 from django.views import debug
 from .settings import get_resource_access_model, import_from_path, \
-    DEBUG, DUMP_REPORT_STRATEGY, DUMP_EXCEPTIONS, DAV_ROOT, PROVIDER_NAME
+    DEBUG, DUMP_REPORT_STRATEGY, DUMP_EXCEPTIONS, DAV_ROOT, PROVIDER_NAME, \
+    REQUEST_RESOURCE_NAME
 from .models import ResourceAccess
 
 logger = logging.getLogger(__name__)
@@ -70,7 +71,7 @@ class TemplationMiddleware(object):
     def _clean_thread_vars(cls):
         """ Clean the house for reusable threads. """
         try:
-            del _thread_vars.user_id
+            del _thread_vars.resource_access
         except AttributeError:
             pass
 
@@ -81,8 +82,15 @@ class TemplationMiddleware(object):
         somewhere accesible.
         """
 
-        user = getattr(request, 'user', {})
-        _thread_vars.user_id = getattr(user, 'id', None)
+        user = getattr(request, 'user', None)
+        # Assure the current user has a WebDav folder
+        if user and user.is_authenticated():
+            resource = getattr(request, REQUEST_RESOURCE_NAME, None)
+            try:
+                resource_access = get_resource_access_model().objects.filter(user=user, resource=resource).prefetch_related('user', 'resource')
+                _thread_vars.resource_access = resource_access
+            except get_resource_access_model().DoesNotExist:
+                pass
 
     def process_response(self, request, response):
         self._clean_thread_vars()

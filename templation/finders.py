@@ -1,10 +1,13 @@
 import os
+from threading import local
 from django.core.files.storage import FileSystemStorage
 from django.contrib.staticfiles import utils
 from django.contrib.staticfiles.finders import BaseFinder
 from django.utils._os import safe_join
 from django.conf import settings
 from .settings import DAV_ROOT
+
+_thread_vars = local()
 
 
 class TemplationStaticFinder(BaseFinder):
@@ -17,7 +20,6 @@ class TemplationStaticFinder(BaseFinder):
 
     def __init__(self, apps=None, *args, **kwargs):
         # List of locations with static files
-        self.locations = []
         for resource_dir in os.listdir(DAV_ROOT):
             self.locations.append(os.path.join(DAV_ROOT, resource_dir))
 
@@ -26,17 +28,15 @@ class TemplationStaticFinder(BaseFinder):
     def find(self, path, all=False):
         """
         Looks for files in the webdav dirs.
-        Path must start with the prefix "/templation/<user_id>/
-
-        In example: /templation/1234/css/bootstrap.css
         """
         matches = []
 
+        resource_access = getattr(_thread_vars, 'resource_access', None)
+        if not resource_access:
+            return [] if all else None
+
         # Remove unused prefix
-        split_path = path.split('/')
-        user_id = split_path[2]
-        path = split_path[3:]
-        matched_path = self.find_location(DAV_ROOT, path, user_id)
+        matched_path = self.find_location(DAV_ROOT, path, resource_access.resource.id)
         if matched_path:
             if not all:
                 return matched_path

@@ -30,8 +30,9 @@ class SetUpAccess(unittest.TestCase):
         self.user = User.objects.create_user(
             username='john',
             email='john@doe.com',
-            password='secret'
         )
+        self.user.set_password('secret')
+        self.user.save()
 
         self.user_auth = 'Basic ' + \
             base64.encodestring('john:secret').replace('\n', '')
@@ -40,8 +41,7 @@ class SetUpAccess(unittest.TestCase):
         self.resource_access = settings.get_resource_access_model().objects.create(user=self.user, resource=self.resource)
 
         self.client = Client()
-        self.client.login(username=self.user.username, password=self.user.password)
-
+        self.client.login(username=self.user.username, password='secret')
         super(SetUpAccess, self).setUp()
 
     def tearDown(self):

@@ -17,6 +17,7 @@ try:
         },
         ROOT_URLCONF="tests.urls",
         INSTALLED_APPS=[
+            "django.contrib.sessions",
             "django.contrib.auth",
             "django.contrib.contenttypes",
             "django.contrib.sites",
@@ -29,6 +30,7 @@ try:
         TEMPLATION_DAV_ROOT='/tmp/dav/',
         TEMPLATION_RESOURCE_MODEL='tests.models.MyResource',
         RESOURCE_ACCESS_MODEL_INITIALIZER='tests.models.MyResource',
+        TEMPLATION_REQUEST_RESOURCE_NAME='resource',
 
         STATICFILES_FINDERS=(
             'templation.finders.TemplationStaticFinder',
