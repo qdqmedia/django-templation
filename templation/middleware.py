@@ -78,8 +78,11 @@ class TemplationMiddleware(object):
 
     def process_response(self, request, response):
         """ Clean the house for reusable threads. """
+        try:
+            del thread_vars.user_id
+        except AttributeError:
+            pass
 
-        thread_vars.pop('user_id', None)
         return response
 
     def process_exception(self, request, exception):
