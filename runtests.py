@@ -1,9 +1,13 @@
+import os
 import sys
 
 try:
     from django.conf import settings
 
+    BASE_DIR = os.path.dirname(os.path.realpath(__file__))
+
     settings.configure(
+        BASE_DIR=BASE_DIR,
         DEBUG=True,
         USE_TZ=True,
         DATABASES={
@@ -23,7 +27,19 @@ try:
         NOSE_ARGS=['-s'],
 
         TEMPLATION_DAV_ROOT='/tmp/dav/',
-        TEMPLATION_RESOURCE_MODEL='tests.MyResource',
+        TEMPLATION_RESOURCE_MODEL='tests.models.MyResource',
+        RESOURCE_ACCESS_MODEL_INITIALIZER='tests.models.MyResource',
+
+        MIDDLEWARE_CLASSES=(
+            'django.middleware.common.CommonMiddleware',
+            'django.contrib.sessions.middleware.SessionMiddleware',
+            'django.middleware.csrf.CsrfViewMiddleware',
+            'django.contrib.auth.middleware.AuthenticationMiddleware',
+            'django.contrib.messages.middleware.MessageMiddleware',
+            'templation.middleware.TemplateProcessException',
+        ),
+
+        TEMPLATION_BOILERPLATE_FOLDER=os.path.join(BASE_DIR, 'tests', 'boilerplate')
     )
 
     from django_nose import NoseTestSuiteRunner

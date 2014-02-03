@@ -1,11 +1,23 @@
+from importlib import import_module
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
-from django.db.models import get_model
+
+# global switch to show templation
+DEBUG = getattr(settings, 'TEMPLATION_DEBUG', not bool(getattr(settings, 'DEBUG', True)))
+
+
+def import_from_path(import_string):
+    try:
+        module, name = import_string.rsplit('.', 1)
+        return getattr(import_module(module), name)
+    except (AttributeError, ValueError):  # pragma no cover
+        raise ImportError(import_string)
 
 
 # WebDav settings
 PROVIDER_NAME = getattr(settings, 'TEMPLATION_PROVIDER_NAME', 'templation')
-RESOURCE_ACCESS_MODEL_INITIALIZER = getattr(settings, 'TEMPLATION_RESOURCE_ACCESS_MODEL_INITIALIZER', lambda instance: None)
+BOILERPLATE_FOLDER = getattr(settings, 'TEMPLATION_BOILERPLATE_FOLDER', None)
+BOILERPLATE_INITIALIZER = getattr(settings, 'TEMPLATION_BOILERPLATE_INITIALIZER', 'templation.models.copy_boilerplate_folder')
 
 try:
     DAV_ROOT = settings.TEMPLATION_DAV_ROOT
@@ -15,9 +27,15 @@ except AttributeError:
 try:
     RESOURCE_MODEL = settings.TEMPLATION_RESOURCE_MODEL
 except AttributeError:
-    raise ImproperlyConfigured('You have to define TEMPLATION_RESOURCE_MODEL ("yourapp.YourModel") in settings.py')
+    raise ImproperlyConfigured('You have to define TEMPLATION_RESOURCE_MODEL = "yourapp.models.YourModel" in settings.py')
 
 
 # Model Getters
-get_resource_access_model = lambda: get_model(*getattr(settings, 'TEMPLATION_RESOURCE_ACCESS_MODEL', 'templation.ResourceAccess').split('.'))
-get_resource_model = lambda: get_model(*RESOURCE_MODEL.split('.'))
+get_resource_access_model = lambda: import_from_path(getattr(settings, 'TEMPLATION_RESOURCE_ACCESS_MODEL', 'templation.models.ResourceAccess'))
+get_resource_model = lambda: import_from_path(RESOURCE_MODEL)
+
+DUMP_REPORT_STRATEGY = getattr(settings, 'TEMPLATION_DUMP_REPORT_STRATEGY', 'templation.middleware.dump_1report_strategy')
+DUMP_STACK_TRACE = getattr(settings, 'TEMPLATION_DUMP_STACK_TRACE', False)
+DUMP_EXCEPTIONS = getattr(settings, 'TEMPLATION_DUMP_EXCEPTION', (
+    'TemplateDoesNotExist'
+))

@@ -1,7 +1,10 @@
+import sys
 from django.contrib.auth import authenticate
 from wsgidav.wsgidav_app import DEFAULT_CONFIG
 from wsgidav.wsgidav_app import WsgiDAVApp
-from .settings import DAV_ROOT, PROVIDER_NAME
+from django.views import debug
+from .settings import get_resource_access_model, import_from_path, \
+    DEBUG, DUMP_REPORT_STRATEGY, DUMP_EXCEPTIONS, DAV_ROOT, PROVIDER_NAME
 from .models import ResourceAccess
 
 
@@ -20,11 +23,13 @@ class TemplationDomainController(object):
             return False
 
 config = DEFAULT_CONFIG.copy()
-config['provider_mapping'][PROVIDER_NAME] = DAV_ROOT
-config['user_mapping'][DAV_ROOT] = {None: None}
-config['domaincontroller'] = TemplationDomainController()
-config['acceptdigest'] = False
-config['defaultdigest'] = False
+config.update({
+    'provider_mapping': {PROVIDER_NAME: DAV_ROOT},
+    'user_mapping': {DAV_ROOT: {None: None}},
+    'domaincontroller': TemplationDomainController(),
+    'acceptdigest': False,
+    'defaultdigest': False,
+})
 
 wsgidav_app = WsgiDAVApp(config)
 
@@ -37,3 +42,26 @@ class WsgiDAVMiddleware(object):
         if environ.get('PATH_INFO').startswith('/' + PROVIDER_NAME):
             return wsgidav_app(environ, start_response)
         return self.django_app(environ, start_response)
+
+
+def dump_report_strategy(request):
+    """
+    Default Strategy to show errors only if django authenticated user is on
+    templation Resource Model. You can customize this behavior with
+    `settings.TEMPLATION_DUMP_REPORT_STRATEGY` and point to a custom function
+    like:
+
+    def customReportStrategy(request):
+        return True
+    """
+    return bool(get_resource_access_model().objects.filter(user=request.user))
+
+
+class TemplateProcessException(object):
+    def __init__(self):
+        self.strategy = import_from_path(DUMP_REPORT_STRATEGY)
+
+    def process_exception(self, request, exception):
+        if DEBUG or exception in DUMP_EXCEPTIONS and self.strategy(request):
+
+            return debug.technical_500_response(request, *sys.exc_info())
