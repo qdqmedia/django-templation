@@ -3,18 +3,18 @@ Wrapper for loading templates from the filesystem.
 """
 
 from threading import local
-from django.conf import settings
-from django.template.base import TemplateDoesNotExist
 from django.template import loader
-from django.utils._os import safe_join
 
-thread_vars = local()
+_thread_vars = local()
 
 
 class TemplationLoader(loader.app_directories.Loader):
-
     def get_template_sources(self, template_name, template_dirs=None):
-        pass
+        """ Add the resource dir to the available dirs. """
 
-    def load_template_sources(self, template_name, template_dirs=None):
-        pass
+        res = getattr(_thread_vars, 'resource_access', None)
+        if res:
+            template_dirs = (res.get_absolute_url(),) + (template_dirs or ())
+
+        super(TemplationLoader, self).get_template_sources(template_name,
+                                                           template_dirs)
