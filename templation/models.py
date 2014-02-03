@@ -24,6 +24,11 @@ class AbstractResourceAccess(models.Model):
 
         return os.path.join('/' + PROVIDER_NAME, str(self.resource.id)) + '/'
 
+    def get_path(self, append=None):
+        if append and not append.endswith('/'):
+            append += '/'
+        return os.path.join(DAV_ROOT, str(self.resource.id), append)
+
 
 class ResourceAccess(AbstractResourceAccess):
     """Resource Access Model"""
