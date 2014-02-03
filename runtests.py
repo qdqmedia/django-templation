@@ -15,7 +15,7 @@ try:
                 "ENGINE": "django.db.backends.sqlite3",
             }
         },
-        ROOT_URLCONF="templation.urls",
+        ROOT_URLCONF="tests.urls",
         INSTALLED_APPS=[
             "django.contrib.auth",
             "django.contrib.contenttypes",
@@ -29,6 +29,13 @@ try:
         TEMPLATION_DAV_ROOT='/tmp/dav/',
         TEMPLATION_RESOURCE_MODEL='tests.models.MyResource',
         RESOURCE_ACCESS_MODEL_INITIALIZER='tests.models.MyResource',
+
+        STATICFILES_FINDERS=(
+            'templation.finders.TemplationStaticFinder',
+            'django.contrib.staticfiles.finders.FileSystemFinder',
+            'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+            # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
+        ),
 
         MIDDLEWARE_CLASSES=(
             'django.middleware.common.CommonMiddleware',

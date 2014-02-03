@@ -6,6 +6,7 @@ import shutil
 import base64
 import unittest
 from django.contrib.auth import get_user_model
+from django.test.client import Client
 from webtest import TestApp
 from templation import settings
 
@@ -37,6 +38,9 @@ class SetUpAccess(unittest.TestCase):
 
         self.resource = settings.get_resource_model().objects.create(name='Foo', id=1234)
         self.resource_access = settings.get_resource_access_model().objects.create(user=self.user, resource=self.resource)
+
+        self.client = Client()
+        self.client.login(username=self.user.username, password=self.user.password)
 
         super(SetUpAccess, self).setUp()
 
