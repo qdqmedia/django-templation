@@ -8,7 +8,7 @@ from .settings import get_resource_model
 
 class LocalsManager(object):
     """
-    Oh Nasty hacks... Since static finders and template loaders can't load
+    Oh Nasty Hacks™... Since static finders and template loaders can't load
     the request without option to adapt, we need to keep the resource
     somewhere accesible.
 
@@ -16,13 +16,14 @@ class LocalsManager(object):
 
     >>> from templation.locals import thread_locals
 
-    >>> thread_locals.resource = int(primary_key)  # this should fetch the instance and keep_it
+    >>> thread_locals.resource = primary_key  # this should fetch the instance and keep_it
     >>> thread_locals.resource = resource_instance  # This prevents double fetch.
     """
 
     def __init__(self):
         self._model = get_resource_model()
         self.__locals__ = local()
+        self.__locals__.resource = None
 
     @property
     def resource(self):
@@ -32,7 +33,8 @@ class LocalsManager(object):
     def resource(self, value):
         if isinstance(value, self._model):
             self.__locals__.resource = value
-        elif type(value) is int:
+        else:
             self.__locals__.resource = get_object_or_404(self._model, pk=value)
+
 
 thread_locals = LocalsManager()

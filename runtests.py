@@ -61,7 +61,6 @@ try:
         TEMPLATION_BOILERPLATE_FOLDER=os.path.join(BASE_DIR, 'tests', 'boilerplate'),
         TEMPLATION_DAV_ROOT='/tmp/dav/',
         TEMPLATION_RESOURCE_MODEL='tests.models.MyResource',
-        TEMPLATION_RESOURCE_NAME='resource',
     )
 
     from django_nose import NoseTestSuiteRunner
