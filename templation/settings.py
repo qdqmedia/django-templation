@@ -20,11 +20,6 @@ BOILERPLATE_FOLDER = getattr(settings, 'TEMPLATION_BOILERPLATE_FOLDER', None)
 BOILERPLATE_INITIALIZER = getattr(settings, 'TEMPLATION_BOILERPLATE_INITIALIZER', 'templation.models.copy_boilerplate_folder')
 
 try:
-    REQUEST_RESOURCE_NAME = settings.TEMPLATION_REQUEST_RESOURCE_NAME
-except AttributeError:
-    raise ImproperlyConfigured('You need to set TEMPLATION_REQUEST_RESOURCE_NAME in settings.py')
-
-try:
     DAV_ROOT = settings.TEMPLATION_DAV_ROOT
 except AttributeError:
     raise ImproperlyConfigured('You need to set TEMPLATION_DAV_ROOT in settings.py')

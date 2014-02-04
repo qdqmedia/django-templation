@@ -28,10 +28,6 @@ try:
         SITE_ID=1,
         NOSE_ARGS=['-s'],
 
-        TEMPLATION_DAV_ROOT='/tmp/dav/',
-        TEMPLATION_RESOURCE_MODEL='tests.models.MyResource',
-        RESOURCE_ACCESS_MODEL_INITIALIZER='tests.models.MyResource',
-        TEMPLATION_REQUEST_RESOURCE_NAME='resource',
 
         STATIC_URL='/static/',
         STATIC_ROOT=os.path.join(BASE_DIR, 'tests', 'statics'),
@@ -59,11 +55,13 @@ try:
             'django.middleware.csrf.CsrfViewMiddleware',
             'django.contrib.auth.middleware.AuthenticationMiddleware',
             'django.contrib.messages.middleware.MessageMiddleware',
-            'tests.middleware.TestMiddleware',
             'templation.middleware.TemplationMiddleware',
         ),
 
-        TEMPLATION_BOILERPLATE_FOLDER=os.path.join(BASE_DIR, 'tests', 'boilerplate')
+        TEMPLATION_BOILERPLATE_FOLDER=os.path.join(BASE_DIR, 'tests', 'boilerplate'),
+        TEMPLATION_DAV_ROOT='/tmp/dav/',
+        TEMPLATION_RESOURCE_MODEL='tests.models.MyResource',
+        TEMPLATION_RESOURCE_NAME='resource',
     )
 
     from django_nose import NoseTestSuiteRunner

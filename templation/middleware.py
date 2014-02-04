@@ -1,17 +1,14 @@
 import sys
 import logging
-from threading import local
 from django.contrib.auth import authenticate
 from wsgidav.wsgidav_app import DEFAULT_CONFIG
 from wsgidav.wsgidav_app import WsgiDAVApp
 from django.views import debug
 from .settings import get_resource_access_model, import_from_path, \
-    DEBUG, DUMP_REPORT_STRATEGY, DUMP_EXCEPTIONS, DAV_ROOT, PROVIDER_NAME, \
-    REQUEST_RESOURCE_NAME
+    DEBUG, DUMP_REPORT_STRATEGY, DUMP_EXCEPTIONS, DAV_ROOT, PROVIDER_NAME
 from .models import ResourceAccess
 
 logger = logging.getLogger(__name__)
-global_thread_vars = local()  # see SessionThreadMiddleware for more info.
 
 
 class TemplationDomainController(object):
@@ -66,21 +63,6 @@ def dump_report_strategy(request):
 class TemplationMiddleware(object):
     def __init__(self):
         self.strategy = import_from_path(DUMP_REPORT_STRATEGY)
-
-    def process_request(self, request):
-        """
-        Oh Nasty hacks... Since static finders and template loaders can't load
-        the request without option to adapt, we need to keep the request
-        somewhere accesible.
-        """
-
-        # Assure the current user has a WebDav folder
-        resource = getattr(request, REQUEST_RESOURCE_NAME, None)
-        try:
-            resource_access = get_resource_access_model().objects.filter(resource=resource).first()
-            global_thread_vars.resource_access = resource_access
-        except get_resource_access_model().DoesNotExist:
-            pass
 
     def process_exception(self, request, exception):
         if DEBUG or exception in DUMP_EXCEPTIONS and self.strategy(request):
