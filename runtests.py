@@ -20,6 +20,7 @@ try:
             "django.contrib.sessions",
             "django.contrib.auth",
             "django.contrib.contenttypes",
+            "django.contrib.staticfiles",
             "django.contrib.sites",
             "templation",
             "tests",
@@ -31,6 +32,9 @@ try:
         TEMPLATION_RESOURCE_MODEL='tests.models.MyResource',
         RESOURCE_ACCESS_MODEL_INITIALIZER='tests.models.MyResource',
         TEMPLATION_REQUEST_RESOURCE_NAME='resource',
+
+        STATIC_URL='/static/',
+        STATIC_ROOT=os.path.join(BASE_DIR, 'tests', 'statics'),
 
         STATICFILES_FINDERS=(
             'templation.finders.TemplationStaticFinder',
