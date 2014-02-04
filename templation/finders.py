@@ -5,7 +5,7 @@ from django.contrib.staticfiles import utils
 from django.contrib.staticfiles.finders import BaseFinder
 from django.utils._os import safe_join
 from django.conf import settings
-from .settings import DAV_ROOT
+from .settings import DAV_ROOT, get_resource_access_model
 
 _thread_vars = local()
 
@@ -16,6 +16,7 @@ class TemplationStaticFinder(BaseFinder):
     the user.
     """
 
+    locations = []
     storage = FileSystemStorage(DAV_ROOT, settings.STATIC_URL)
 
     def __init__(self, apps=None, *args, **kwargs):
@@ -31,12 +32,8 @@ class TemplationStaticFinder(BaseFinder):
         """
         matches = []
 
-        resource_access = getattr(_thread_vars, 'resource_access', None)
-        if not resource_access:
-            return [] if all else None
-
         # Remove unused prefix
-        matched_path = self.find_location(DAV_ROOT, path, resource_access.resource.id)
+        matched_path = self.find_location(DAV_ROOT, path)
         if matched_path:
             if not all:
                 return matched_path
@@ -61,6 +58,7 @@ class TemplationStaticFinder(BaseFinder):
         """
         List all files in all locations.
         """
-        for root in self.locations:
+        validated_ids = set(get_resource_access_model().objects.filter_validated().values_list('resource__id', flat=True))
+        for root in (e for e in self.locations if e.rsplit('/', 1)[-1] in validated_ids):
             for path in utils.get_files(self.storage, ignore_patterns):
                 yield path, self.storage

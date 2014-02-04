@@ -74,15 +74,13 @@ class TemplationMiddleware(object):
         somewhere accesible.
         """
 
-        user = getattr(request, 'user', None)
         # Assure the current user has a WebDav folder
-        if user and user.is_authenticated():
-            resource = getattr(request, REQUEST_RESOURCE_NAME, None)
-            try:
-                resource_access = get_resource_access_model().objects.get(user=user, resource=resource)
-                global_thread_vars.resource_access = resource_access
-            except get_resource_access_model().DoesNotExist:
-                pass
+        resource = getattr(request, REQUEST_RESOURCE_NAME, None)
+        try:
+            resource_access = get_resource_access_model().objects.filter(resource=resource).first()
+            global_thread_vars.resource_access = resource_access
+        except get_resource_access_model().DoesNotExist:
+            pass
 
     def process_exception(self, request, exception):
         if DEBUG or exception in DUMP_EXCEPTIONS and self.strategy(request):

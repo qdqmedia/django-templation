@@ -9,9 +9,18 @@ from .settings import DAV_ROOT, PROVIDER_NAME, BOILERPLATE_INITIALIZER, \
     get_resource_model, BOILERPLATE_FOLDER, import_from_path
 
 
+class ResourceAccessManager(models.Manager):
+
+    def filter_validated(self, *args, **kwargs):
+        return self.filter(is_validated=True, *args, **kwargs)
+
+
 class AbstractResourceAccess(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     resource = models.ForeignKey(get_resource_model())
+    is_validated = models.BooleanField(default=False)
+
+    objects = ResourceAccessManager()
 
     class Meta:
         abstract = True
