@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Common entry point to store variables inside threads.
 """

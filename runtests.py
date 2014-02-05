@@ -17,6 +17,7 @@ try:
         },
         ROOT_URLCONF="tests.urls",
         INSTALLED_APPS=[
+            'templation.builtins',
             "django.contrib.sessions",
             "django.contrib.auth",
             "django.contrib.contenttypes",
@@ -61,6 +62,16 @@ try:
         TEMPLATION_BOILERPLATE_FOLDER=os.path.join(BASE_DIR, 'tests', 'boilerplate'),
         TEMPLATION_DAV_ROOT='/tmp/dav/',
         TEMPLATION_RESOURCE_MODEL='tests.models.MyResource',
+        # TEMPLATION_BUILTIN_LIBRARYS={
+        #     'django.template.defaulttags': {
+        #         'exclude': {
+        #             'filters': [],
+        #             'tags': ['load']
+        #         }
+        #     },
+        #     'django.template.defaultfilters': {},
+        #     'django.template.loader_tags': {},
+        # }
     )
 
     from django_nose import NoseTestSuiteRunner

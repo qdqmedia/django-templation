@@ -6,7 +6,18 @@ from django.views.generic.detail import SingleObjectMixin
 
 
 class ResourceStoreMixin(object):
-    def dispatch(self, request, *args, **kwargs):
+    """
+    Addicted to Class Based Views? we too! here you had a mixin
+    to add to any DetailView to handle custom templates.
+
+    If you can't rely con `self.object` override `get_templation_object()`
+    to return a instance of the resource in
+    `templation.settings.get_resource_model()`.
+    """
+    def get_templation_object(self):
         assert isinstance(self, SingleObjectMixin), 'ResourceStoreMixin is not descendant of SingleObjectMixin.'
-        thread_locals.resource = self.get_object()
-        super(ResourceStoreMixin, self).dispatch(request, *args, **kwargs)
+        return self.object or self.get_object()
+
+    def dispatch(self, request, *args, **kwargs):
+        thread_locals.resource = self.get_templation_object()
+        return super(ResourceStoreMixin, self).dispatch(request, *args, **kwargs)
