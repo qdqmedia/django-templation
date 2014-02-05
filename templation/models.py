@@ -53,7 +53,7 @@ def copy_boilerplate_folder(user_dir):
     if os.path.isdir(BOILERPLATE_FOLDER):
         shutil.rmtree(user_dir)  # copytree needs to create the dir...
         shutil.copytree(BOILERPLATE_FOLDER, user_dir)
-    elif BOILERPLATE_FOLDER:
+    elif BOILERPLATE_FOLDER:   # pragma no cover
         raise ValueError('{} is not a valid directory'.format(BOILERPLATE_FOLDER))
 
 
@@ -64,7 +64,7 @@ def create_resource_access(sender, instance, created, **kwargs):
             # create in case neither folder or initializer are defined.
             os.makedirs(user_dir)
             import_from_path(BOILERPLATE_INITIALIZER)(user_dir)
-        except OSError as e:
+        except OSError as e:  # pragma no cover
             if e.errno != 17:
                 raise
 
