@@ -7,6 +7,7 @@ from django.views import debug
 from .settings import get_resource_access_model, import_from_path, \
     DEBUG, DUMP_REPORT_STRATEGY, DUMP_EXCEPTIONS, DAV_ROOT, PROVIDER_NAME
 from .models import ResourceAccess
+from .locals import thread_locals
 
 logger = logging.getLogger(__name__)
 
@@ -63,6 +64,9 @@ def dump_report_strategy(request):
 class TemplationMiddleware(object):
     def __init__(self):
         self.strategy = import_from_path(DUMP_REPORT_STRATEGY)
+
+    def process_request(self, request):
+        thread_locals.user = request.user
 
     def process_exception(self, request, exception):
         if DEBUG or exception in DUMP_EXCEPTIONS and self.strategy(request):

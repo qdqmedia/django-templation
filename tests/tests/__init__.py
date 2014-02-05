@@ -32,6 +32,7 @@ class SetUpAccess(unittest.TestCase):
             email='john@doe.com',
         )
         self.user.set_password('secret')
+        self.user.is_staff = True
         self.user.save()
 
         self.user_auth = 'Basic ' + \

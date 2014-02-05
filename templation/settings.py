@@ -45,3 +45,5 @@ DUMP_EXCEPTIONS = getattr(settings, 'TEMPLATION_DUMP_EXCEPTION', (
     'TemplateDoesNotExist',
     'TemplateSyntaxError',
 ))
+
+VALIDATED_IDS_CACHE_TIME = getattr(settings, 'TEMPLATION_VALIDATED_IDS_CACHE_TIME', 60)

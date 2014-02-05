@@ -5,6 +5,7 @@ import os
 from django.contrib.staticfiles import finders
 from . import BaseTest
 from templation.settings import DAV_ROOT
+from templation.locals import thread_locals
 
 
 class TestStaticFinder(BaseTest):
@@ -23,5 +24,6 @@ class TestStaticFinder(BaseTest):
         self.assertEqual(static_files, sorted(real_statics))
 
     def test_find(self):
+        thread_locals.user = self.user
         static_file = self.finder.find('1234/js/main.js')
         self.assertEqual(static_file, '/tmp/dav/1234/static/js/main.js')
