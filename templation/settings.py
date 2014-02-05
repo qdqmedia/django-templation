@@ -16,12 +16,12 @@ def import_from_path(import_string):
 
 try:
     DAV_ROOT = settings.TEMPLATION_DAV_ROOT
-except AttributeError:
+except AttributeError:  # pragma no cover
     raise ImproperlyConfigured('You need to set TEMPLATION_DAV_ROOT in settings.py')
 
 try:
     RESOURCE_MODEL = settings.TEMPLATION_RESOURCE_MODEL
-except AttributeError:
+except AttributeError:  # pragma no cover
     raise ImproperlyConfigured('You have to define TEMPLATION_RESOURCE_MODEL = "yourapp.models.YourModel" in settings.py')
 
 # WebDav settings
@@ -43,4 +43,5 @@ DUMP_REPORT_STRATEGY = getattr(settings, 'TEMPLATION_DUMP_REPORT_STRATEGY',
 DUMP_STACK_TRACE = getattr(settings, 'TEMPLATION_DUMP_STACK_TRACE', False)
 DUMP_EXCEPTIONS = getattr(settings, 'TEMPLATION_DUMP_EXCEPTION', (
     'TemplateDoesNotExist',
+    'TemplateSyntaxError',
 ))

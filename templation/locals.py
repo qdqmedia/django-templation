@@ -25,6 +25,7 @@ class LocalsManager(object):
         self._model = get_resource_model()
         self.__locals__ = local()
         self.__locals__.resource = None
+        self.__locals__.user = None
 
     @property
     def resource(self):
@@ -36,6 +37,14 @@ class LocalsManager(object):
             self.__locals__.resource = value
         else:
             self.__locals__.resource = get_object_or_404(self._model, pk=value)
+
+    @property
+    def user(self):
+        return self.__locals__.user
+
+    @user.setter
+    def user(self, value):
+        self.__locals__.user = value
 
 
 thread_locals = LocalsManager()

@@ -62,16 +62,20 @@ try:
         TEMPLATION_BOILERPLATE_FOLDER=os.path.join(BASE_DIR, 'tests', 'boilerplate'),
         TEMPLATION_DAV_ROOT='/tmp/dav/',
         TEMPLATION_RESOURCE_MODEL='tests.models.MyResource',
-        # TEMPLATION_BUILTIN_LIBRARYS={
-        #     'django.template.defaulttags': {
-        #         'exclude': {
-        #             'filters': [],
-        #             'tags': ['load']
-        #         }
-        #     },
-        #     'django.template.defaultfilters': {},
-        #     'django.template.loader_tags': {},
-        # }
+        TEMPLATION_BUILTIN_LIBRARYS={
+            'django.template.defaultfilters': {
+                'exclude': {
+                    'filters': ['pprint'],
+                }
+            },
+            'django.template.defaulttags': {
+                'exclude': {
+                    'tags': ['load']
+                }
+            },
+            'django.template.loader_tags': {},
+            'django.contrib.staticfiles.templatetags.staticfiles': {},
+        }
     )
 
     from django_nose import NoseTestSuiteRunner

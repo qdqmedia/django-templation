@@ -14,10 +14,10 @@ class ResourceStoreMixin(object):
     to return a instance of the resource in
     `templation.settings.get_resource_model()`.
     """
-    def get_templation_object(self):
-        assert isinstance(self, SingleObjectMixin), 'ResourceStoreMixin is not descendant of SingleObjectMixin.'
-        return self.object or self.get_object()
+    def get_templation_object(self, *args, **kwargs):
+        return getattr(self, 'object', getattr(kwargs, 'pk', None))
 
     def dispatch(self, request, *args, **kwargs):
-        thread_locals.resource = self.get_templation_object()
-        return super(ResourceStoreMixin, self).dispatch(request, *args, **kwargs)
+        context = super(ResourceStoreMixin, self).dispatch(request, *args, **kwargs)
+        thread_locals.resource = self.get_templation_object(**kwargs)
+        return context
