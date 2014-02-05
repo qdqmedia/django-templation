@@ -31,9 +31,9 @@ class TemplationStaticFinder(BaseFinder):
         Looks for files in the webdav dirs.
         """
         matches = []
-
         # Remove unused prefix
-        matched_path = self.find_location(DAV_ROOT, path)
+        resource_id, path = path.split('/', 1)
+        matched_path = self.find_location(os.path.join(DAV_ROOT, resource_id), path, 'static')
         if matched_path:
             if not all:
                 return matched_path
@@ -46,11 +46,9 @@ class TemplationStaticFinder(BaseFinder):
         absolute path (or ``None`` if no match).
         """
         if prefix:
-            prefix = '%s%s' % (prefix, os.sep)
-            if not path.startswith(prefix):
-                return None
-            path = path[len(prefix):]
-        path = safe_join(root, path)
+            path = safe_join(root, prefix, path)
+        else:
+            path = safe_join(root, path)
         if os.path.exists(path):
             return path
 
@@ -58,7 +56,8 @@ class TemplationStaticFinder(BaseFinder):
         """
         List all files in all locations.
         """
-        validated_ids = set(get_resource_access_model().objects.filter_validated().values_list('resource__id', flat=True))
+        validated_ids = set(map(str, get_resource_access_model().objects.filter_validated().values_list('resource__id', flat=True)))
         for root in (e for e in self.locations if e.rsplit('/', 1)[-1] in validated_ids):
             for path in utils.get_files(self.storage, ignore_patterns):
-                yield path, self.storage
+                if path.split('/', 1)[1].startswith('static/'):
+                    yield path, self.storage

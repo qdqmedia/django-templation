@@ -38,7 +38,7 @@ class SetUpAccess(unittest.TestCase):
             base64.encodestring('john:secret').replace('\n', '')
 
         self.resource = settings.get_resource_model().objects.create(name='Foo', id=1234)
-        self.resource_access = settings.get_resource_access_model().objects.create(user=self.user, resource=self.resource)
+        self.resource_access = settings.get_resource_access_model().objects.create(user=self.user, resource=self.resource, is_validated=True)
 
         self.client = Client()
         self.client.login(username=self.user.username, password='secret')
