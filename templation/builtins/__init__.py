@@ -1,7 +1,6 @@
 """
-Manager to handle default loaders.
+Manager to handle buitlin template tags and filters.
 """
-
 from django.conf import settings
 from django.template import base
 
