@@ -39,17 +39,18 @@ class TemplationStaticFinder(BaseFinder):
         """
         Looks for files in the webdav dirs.
         """
-        matches = []
-        # Remove unused prefix
-        resource_id, path = path.split('/', 1)
-        if getattr(thread_locals.user, 'is_staff', False):
-            matched_path = self.find_location(os.path.join(DAV_ROOT, resource_id), path, 'static')
-            if matched_path:
-                if not all:
-                    return matched_path
-                matches.append(matched_path)
 
-        return matches
+        if getattr(thread_locals.user, 'is_staff', False) and get_resource_access_model().objects.filter(user=thread_locals.user, resource=thread_locals.resource):
+            matched_path = self.find_location(os.path.join(DAV_ROOT, str(thread_locals.resource.id)), path, 'static')
+            if matched_path:
+                return [matched_path] if all else matched_path
+
+        elif getattr(thread_locals.resource_access, 'id', False):
+            matched_path = self.find_location(os.path.join(settings.STATIC_ROOT, str(thread_locals.resource.id)), path, 'static')
+            if matched_path:
+                return [matched_path] if all else matched_path
+
+        return []
 
     def find_location(self, root, path, prefix=None):
         """
