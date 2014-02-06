@@ -45,5 +45,6 @@ class TestStaticFinder(BaseTest):
             self.assertEqual(static_file, os.path.join(settings.STATIC_ROOT, '1234/static/js/main.js'))
         finally:
             # Destroy collectstatic
-            shutil.rmtree(settings.STATIC_ROOT)
-            shutil.move(old_static, settings.STATIC_ROOT)
+            if os.path.exists(old_static) and os.path.exists(settings.STATIC_ROOT):
+                shutil.rmtree(settings.STATIC_ROOT)
+                shutil.move(old_static, settings.STATIC_ROOT)
