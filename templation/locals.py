@@ -24,6 +24,9 @@ class LocalsManager(object):
     def __init__(self):
         self._model = get_resource_model()
         self.__locals__ = local()
+        self.clear()
+
+    def clear(self):
         self.__locals__.resource = None
         self.__locals__.user = None
 
@@ -45,6 +48,7 @@ class LocalsManager(object):
     @user.setter
     def user(self, value):
         self.__locals__.user = value
+
 
 
 thread_locals = LocalsManager()

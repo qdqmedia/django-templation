@@ -29,7 +29,7 @@ class AbstractResourceAccess(models.Model):
         unique_together = ('user', 'resource')
 
     def get_absolute_url(self):
-        """Returns the WebDav path for this resource"""
+        """Returns the WebDav path for this resource."""
 
         return os.path.join('/' + PROVIDER_NAME, str(self.resource.id)) + '/'
 
@@ -40,14 +40,14 @@ class AbstractResourceAccess(models.Model):
 
 
 class ResourceAccess(AbstractResourceAccess):
-    """Resource Access Model"""
+    """Resource Access Model."""
 
 
 def copy_boilerplate_folder(user_dir):
     """
     Default behavior to initialize the webdav folder. copy the resources from
     `settings.TEMPLATION_BOILERPLATE_FOLDER` to the newly created folder.
-    Overridable function with `settings.TEMPLATION_BOILERPLATE_INITIALIZER`
+    Overridable function with `settings.TEMPLATION_BOILERPLATE_INITIALIZER`.
     """
 
     if os.path.isdir(BOILERPLATE_FOLDER):
