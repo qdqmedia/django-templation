@@ -1,10 +1,19 @@
-{% load l10n %}
+{% load i18n %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>{% trans 'Hi world!' %}</title>
 </head>
 <body>
+    <h1>{% trans 'Hi world!' %}</h1>
 
+    {% blocktrans %}<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In porttitor
+    urna vitae aliquam ornare. Quisque sit amet odio justo. Phasellus
+    lacinia viverra varius. Vestibulum tempus eleifend leo, quis iaculis
+    mauris accumsan vel. Nulla interdum eget ligula et commodo. Etiam eget
+    aliquam nibh. Quisque aliquet magna sed odio rhoncus, quis suscipit
+    odio cursus. Curabitur placerat lacinia sapien eu sollicitudin.
+    </p>{% endblocktrans %}
 </body>
 </html>
