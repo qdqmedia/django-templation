@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import os
+import shutil
+from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.contrib.auth.models import AnonymousUser
 from . import BaseTest
@@ -28,10 +30,20 @@ class TestStaticFinder(BaseTest):
         thread_locals.user = self.user
         thread_locals.resource = self.resource
         static_file = self.finder.find('js/main.js')
-        self.assertEqual(static_file, '/tmp/dav/1234/static/js/main.js')
+        self.assertEqual(static_file, os.path.join(DAV_ROOT, '1234/static/js/main.js'))
 
     def test_find_as_non_logged_user(self):
-        thread_locals.user = AnonymousUser()
-        thread_locals.resource = self.resource
-        static_file = self.finder.find('js/main.js')
-        self.assertEqual(static_file, '/tmp/dav/1234/static/js/main.js')
+        try:
+            # Simulate collect static
+            old_static = settings.STATIC_ROOT.rstrip('/') + '_old'
+            shutil.move(settings.STATIC_ROOT, old_static)
+            shutil.copytree(DAV_ROOT, settings.STATIC_ROOT)
+
+            thread_locals.user = AnonymousUser()
+            thread_locals.resource = self.resource
+            static_file = self.finder.find('js/main.js')
+            self.assertEqual(static_file, os.path.join(settings.STATIC_ROOT, '1234/static/js/main.js'))
+        finally:
+            # Destroy collectstatic
+            shutil.rmtree(settings.STATIC_ROOT)
+            shutil.move(old_static, settings.STATIC_ROOT)

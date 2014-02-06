@@ -31,7 +31,7 @@ try:
 
 
         STATIC_URL='/static/',
-        STATIC_ROOT=os.path.join(BASE_DIR, 'tests', 'statics'),
+        STATIC_ROOT=os.path.join(BASE_DIR, 'tests', 'static'),
 
         STATICFILES_FINDERS=(
             'templation.finders.TemplationStaticFinder',

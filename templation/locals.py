@@ -5,7 +5,6 @@ Common entry point to store variables inside threads.
 from threading import local
 from django.shortcuts import get_object_or_404
 from .settings import get_resource_model
-from templation.settings import get_resource_access_model
 
 
 class LocalsManager(object):
@@ -24,14 +23,12 @@ class LocalsManager(object):
 
     def __init__(self):
         self._model = get_resource_model()
-        self._access_model = get_resource_access_model()
         self.__locals__ = local()
         self.clear()
 
     def clear(self):
         self.__locals__.user = None
         self.__locals__.resource = None
-        self.__locals__.resource_access = None
 
     @property
     def user(self):
@@ -51,20 +48,5 @@ class LocalsManager(object):
             self.__locals__.resource = value
         else:
             self.__locals__.resource = get_object_or_404(self._model, pk=value)
-
-    @property
-    def resource_access(self):
-        if not self.__locals__.resource_access:
-            try:
-                self.__locals__.resource_access = self._access_model.objects.get(user=self.user, resource=self.resource)
-            except self._access_model.DoesNotExist:
-                pass
-            
-        return self.__locals__.resource_access
-
-    @resource_access.setter
-    def resource_access(self, value):
-        self.__locals__.resource_access = value
-
 
 thread_locals = LocalsManager()
