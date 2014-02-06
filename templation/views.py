@@ -2,7 +2,7 @@
 Mixin to add in your CCBV to store the object.pk as resource to be fetched in the template.
 """
 from .locals import thread_locals
-from django.views.generic.detail import SingleObjectMixin
+from .settings import get_resource_access_model
 
 
 class ResourceStoreMixin(object):
