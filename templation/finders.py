@@ -3,8 +3,8 @@ from django.core.cache import cache
 from django.core.files.storage import FileSystemStorage
 from django.contrib.staticfiles import utils
 from django.contrib.staticfiles.finders import BaseFinder
-from django.utils._os import safe_join
 from django.conf import settings
+from django.utils._os import safe_join
 from .settings import DAV_ROOT, get_resource_access_model, VALIDATED_IDS_CACHE_TIME
 from .locals import thread_locals
 

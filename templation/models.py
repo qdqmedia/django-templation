@@ -2,8 +2,8 @@
 import os
 import shutil
 from django.db import models
-from django.conf import settings
 from django.db.models.signals import post_save
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from .settings import DAV_ROOT, PROVIDER_NAME, BOILERPLATE_INITIALIZER, \
     get_resource_model, BOILERPLATE_FOLDER, import_from_path
