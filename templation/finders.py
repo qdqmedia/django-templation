@@ -1,5 +1,4 @@
 import os
-from threading import local
 from django.core.cache import cache
 from django.core.files.storage import FileSystemStorage
 from django.contrib.staticfiles import utils
