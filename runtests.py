@@ -61,6 +61,7 @@ try:
 
         TEMPLATION_BOILERPLATE_FOLDER=os.path.join(BASE_DIR, 'tests', 'boilerplate'),
         TEMPLATION_DAV_ROOT='/tmp/dav/',
+        TEMPLATION_DAV_STATIC_URL='/templationdav/',
         TEMPLATION_RESOURCE_MODEL='tests.models.MyResource',
         TEMPLATION_BUILTIN_LIBRARYS={
             'django.template.defaultfilters': {
@@ -74,7 +75,7 @@ try:
                 }
             },
             'django.template.loader_tags': {},
-            'django.contrib.staticfiles.templatetags.staticfiles': {},
+            'templation.templatetags.static': {},
         }
     )
 

@@ -20,6 +20,11 @@ except AttributeError:  # pragma no cover
     raise ImproperlyConfigured('You need to set TEMPLATION_DAV_ROOT in settings.py')
 
 try:
+    DAV_STATIC_URL = settings.TEMPLATION_DAV_STATIC_URL
+except AttributeError:  # pragma no cover
+    raise ImproperlyConfigured('You need to set TEMPLATION_DAV_STATIC_URL in settings.py')
+
+try:
     RESOURCE_MODEL = settings.TEMPLATION_RESOURCE_MODEL
 except AttributeError:  # pragma no cover
     raise ImproperlyConfigured('You have to define TEMPLATION_RESOURCE_MODEL = "yourapp.models.YourModel" in settings.py')
