@@ -66,7 +66,7 @@ class TemplationMiddleware(object):
         self.strategy = import_from_path(DUMP_REPORT_STRATEGY)
 
     def process_request(self, request):
-        thread_locals.user = request.user
+        thread_locals.user = getattr(request, 'user', None)
 
     def process_response(self, request, response):
         thread_locals.clear()
