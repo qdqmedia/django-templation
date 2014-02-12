@@ -23,6 +23,11 @@ class FailView(ResourceStoreMixin, DetailView):
     model = MyResource
 
 
+class ExtendedView(ResourceStoreMixin, DetailView):
+    template_name = 'extension_and_inclusion.html'
+    model = MyResource
+
+
 class PublicView(TemplateView):
     template_name = 'load_ok.html'
 

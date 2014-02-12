@@ -31,3 +31,10 @@ class TestIndex(BaseTest):
         response = self.client.get('/public_connection/'.format(self.resource.id),
                                    follow=True)
         self.assertEqual(response.status_code, 200)
+
+    def test_extension_and_inclusion(self):
+        response = self.client.get('/extended/{}/'.format(self.resource.id),
+                                   follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('included.html'.format(settings.TEMPLATION_DAV_STATIC_URL), response.content)
+        self.assertNotEquals(response.content, 'NOT OVERRIDEN\n')
