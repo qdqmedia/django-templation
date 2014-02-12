@@ -17,31 +17,25 @@ django-templation
 
 The easy way to allow designers edit templates and assets.
 
+.. image :: ../assets/workflow.png
+
 Documentation
 -------------
 
 The full documentation is at http://django-templation.rtfd.org.
 
-Dependencies
--------------
 
-.. code-block :: bash
-
-	sudo apt-get install build-essential python-dev libxml2-dev python-pip lxml
-
-
-Quickstart
-----------
+Installation
+------------
 
 Install django-templation::
 
     pip install django-templation
 
-Then use it in a project::
-
-    import templation
 
 Features
 --------
 
-* TODO
+* Resource Access administration via Django admin.
+* WebDAV access for designers to easily edit templates and static files from anywhere.
+* Sandboxed templates: restrict the use of Django builtin template tags and filters
