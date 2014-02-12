@@ -67,10 +67,14 @@ class TemplationMiddleware(object):
         self.strategy = import_from_path(DUMP_REPORT_STRATEGY)
 
     def process_request(self, request):
-        thread_locals.clear()  # get a clean state
         thread_locals.user = getattr(request, 'user', None)
 
+    def process_response(self, request, response):
+        thread_locals.clear()
+        return response
+
     def process_exception(self, request, exception):
+        thread_locals.clear()  # leave a clean state
         if DEBUG or exception in DUMP_EXCEPTIONS and self.strategy(request):
             exc_info = sys.exc_info()
             exc_info.update({

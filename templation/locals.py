@@ -3,7 +3,7 @@
 Common entry point to store variables inside threads.
 """
 from __future__ import absolute_import
-from threading import local
+from threading import local, current_thread
 from django.shortcuts import get_object_or_404
 from .settings import get_resource_model
 
@@ -32,8 +32,12 @@ class LocalsManager(object):
         self.__locals__.resource = None
 
     @property
+    def thread(self):
+        return current_thread()
+
+    @property
     def user(self):
-        return self.__locals__.user
+        return getattr(self.__locals__, 'user', None)
 
     @user.setter
     def user(self, value):
@@ -41,7 +45,7 @@ class LocalsManager(object):
 
     @property
     def resource(self):
-        return self.__locals__.resource
+        return getattr(self.__locals__, 'resource', None)
 
     @resource.setter
     def resource(self, value):
