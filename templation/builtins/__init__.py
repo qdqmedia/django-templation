@@ -6,7 +6,7 @@ from django.template import base, TemplateSyntaxError
 from ..locals import thread_locals
 
 
-BUILTIN_LIBRARYS = getattr(settings, 'TEMPLATION_BUILTIN_LIBRARYS', {
+BUILTIN_LIBRARIES = getattr(settings, 'TEMPLATION_BUILTIN_LIBRARIES', {
     'django.template.defaultfilters': {},
     'django.template.defaulttags': {},
     'django.template.loader_tags': {},
@@ -25,7 +25,7 @@ class exclusion_filter(object):
         return self.function(*args, **kwargs)
 
 
-for k, v in BUILTIN_LIBRARYS.items():
+for k, v in BUILTIN_LIBRARIES.items():
     base.add_to_builtins(k)
     if 'exclude' in v:
         for kind, list in v['exclude'].items():
