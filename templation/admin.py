@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from django.contrib import admin
 from .settings import get_resource_access_model
 

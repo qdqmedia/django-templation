@@ -1,6 +1,7 @@
 """
 Mixin to add in your CCBV to store the object.pk as resource to be fetched in the template.
 """
+from __future__ import absolute_import
 from .locals import thread_locals
 
 

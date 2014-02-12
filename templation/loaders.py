@@ -2,6 +2,7 @@
 Wrapper for loading templates from the filesystem.
 """
 
+from __future__ import absolute_import
 from django.template.loaders.app_directories import Loader
 from .locals import thread_locals
 from .settings import get_resource_access_model

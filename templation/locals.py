@@ -2,6 +2,7 @@
 """
 Common entry point to store variables inside threads.
 """
+from __future__ import absolute_import
 from threading import local
 from django.shortcuts import get_object_or_404
 from .settings import get_resource_model
