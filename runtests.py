@@ -75,7 +75,7 @@ try:
                 }
             },
             'django.template.loader_tags': {},
-            'templation.templatetags.static': {},
+            'templation.templatetags.templation_tags': {},
         }
     )
 

@@ -17,8 +17,9 @@ class TemplationLoader(Loader):
         res = thread_locals.resource
         if res:
             access_instance = self._access.objects.filter(resource=res).first()
-            path = access_instance.get_path('templates')
-            template_dirs = (path,) + (template_dirs or ())
+            if access_instance:
+                path = access_instance.get_path('templates')
+                template_dirs = (path,) + (template_dirs or ())
 
         return super(TemplationLoader, self).get_template_sources(template_name,
                                                                   template_dirs)
