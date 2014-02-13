@@ -22,13 +22,6 @@ Django settings
         "templation",
     ],
 
-    STATICFILES_FINDERS = (
-        'templation.finders.TemplationStaticFinder',
-        'django.contrib.staticfiles.finders.FileSystemFinder',
-        'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    ),
-
-
     TEMPLATE_LOADERS = (
         'templation.loaders.TemplationLoader',
         'django.template.loaders.filesystem.Loader',
@@ -63,6 +56,34 @@ Django settings
         'django.template.loader_tags': {},
         'templation.templatetags.static': {},
     }
+
+
+Serving static content
+-----------------------
+
+`TEMPLATION_DAV_STATIC_URL` defines the URL which serves customized statics. You need to
+configure your web server (like NGINX) to serve this files properly
+
+.. code-block :: nginx
+
+    server {
+        listen 8080;
+
+        location ~ ^/templationdav/(\d+)/(.*)$ {
+            alias /your/davroot/$1/static/$2;
+        }
+
+        location /static/ {
+            alias /your/static/path/;
+        }
+
+        location / {
+            include uwsgi_params;
+            uwsgi_pass 127.0.0.1:3031;
+            uwsgi_param    SCRIPT_NAME '';
+        }
+    }
+    
 
 
 Customizations
