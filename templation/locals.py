@@ -6,6 +6,7 @@ from __future__ import absolute_import
 from threading import local, current_thread
 from django.shortcuts import get_object_or_404
 from .settings import get_resource_model
+from django.contrib.auth.models import AnonymousUser
 
 
 class LocalsManager(object):
@@ -28,7 +29,7 @@ class LocalsManager(object):
         self.clear()
 
     def clear(self):
-        self.__locals__.user = None
+        self.__locals__.user = AnonymousUser()
         self.__locals__.resource = None
 
     @property
@@ -37,7 +38,7 @@ class LocalsManager(object):
 
     @property
     def user(self):
-        return getattr(self.__locals__, 'user', None)
+        return getattr(self.__locals__, 'user', AnonymousUser())
 
     @user.setter
     def user(self, value):
