@@ -20,13 +20,13 @@ Django settings
         "django.contrib.staticfiles",
         "django.contrib.sites",
         "templation",
-    ],
+    ]
 
     TEMPLATE_LOADERS = (
         'templation.loaders.TemplationLoader',
         'django.template.loaders.filesystem.Loader',
         'django.template.loaders.app_directories.Loader'
-    ),
+    )
 
     MIDDLEWARE_CLASSES = (
         'django.middleware.common.CommonMiddleware',
@@ -35,13 +35,13 @@ Django settings
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
         'templation.middleware.TemplationMiddleware',
-    ),
+    )
 
-    TEMPLATION_BOILERPLATE_FOLDER = '/path/to/boilerplate/folder/',
-    TEMPLATION_DAV_ROOT = '/path/to/webdav/folder/',
-    TEMPLATION_DAV_STATIC_URL = '/templationdav/',  # URL to bind templation statics
-    TEMPLATION_RESOURCE_MODEL = 'yourapp.models.MyResource',
-    TEMPLATION_RESOURCE_ACCESS_MODEL = 'yourapp.models.CustomResourceAccessModel',  # OPTIONAL
+    TEMPLATION_BOILERPLATE_FOLDER = '/path/to/boilerplate/folder/'
+    TEMPLATION_DAV_ROOT = '/path/to/webdav/folder/'
+    TEMPLATION_DAV_STATIC_URL = '/templationdav/'  # URL to bind templation statics
+    TEMPLATION_RESOURCE_MODEL = 'yourapp.models.MyResource'
+    TEMPLATION_RESOURCE_ACCESS_MODEL = 'yourapp.models.CustomResourceAccessModel'  # OPTIONAL
     TEMPLATION_BUILTIN_LIBRARIES = {
         'django.template.defaultfilters': {
             'exclude': {
@@ -54,7 +54,7 @@ Django settings
             }
         },
         'django.template.loader_tags': {},
-        'templation.templatetags.static': {},
+        'templation.templatetags.static': {}
     }
 
 
