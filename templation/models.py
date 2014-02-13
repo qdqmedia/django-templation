@@ -7,7 +7,7 @@ from django.db.models.signals import post_save
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from .settings import DAV_ROOT, PROVIDER_NAME, BOILERPLATE_INITIALIZER, \
-    get_resource_model, BOILERPLATE_FOLDER, import_from_path
+    get_resource_model, get_resource_access_model, BOILERPLATE_FOLDER, import_from_path
 
 
 class ResourceAccessManager(models.Manager):
@@ -69,4 +69,4 @@ def create_resource_access(sender, instance, created, **kwargs):
             if e.errno != 17:
                 raise
 
-post_save.connect(create_resource_access, sender=ResourceAccess)
+post_save.connect(create_resource_access, sender=get_resource_access_model())
