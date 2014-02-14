@@ -38,7 +38,7 @@ class LocalsManager(object):
 
     @property
     def user(self):
-        return getattr(self.__locals__, 'user', AnonymousUser())
+        return self.__locals__.user if getattr(self.__locals__, 'user', None) else AnonymousUser()
 
     @user.setter
     def user(self, value):

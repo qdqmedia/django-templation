@@ -1,5 +1,4 @@
 from django.shortcuts import render_to_response
-from django.contrib.auth.decorators import login_required
 from django.views.generic import DetailView
 from django.views.generic.base import TemplateView
 from templation.locals import thread_locals
@@ -7,7 +6,6 @@ from templation.views import ResourceStoreMixin
 from .models import MyResource
 
 
-@login_required
 def index(request, pk):
     thread_locals.resource = pk
     return render_to_response('index.html', {'name': 'John'})
