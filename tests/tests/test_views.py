@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from django.test.client import RequestFactory
 from django.template.base import TemplateSyntaxError
 from django.conf import settings
 from templation.settings import get_resource_model
+from templation.views import static_view
 from . import BaseTest
 
 
@@ -75,3 +77,15 @@ class TestIndex(BaseTest):
         self.assertEqual(response.status_code, 200)
         self.assertIn('included.html'.format(settings.TEMPLATION_DAV_STATIC_URL), response.content)
         self.assertNotEquals(response.content, 'NOT OVERRIDEN\n')
+
+
+class TestStaticView(BaseTest):
+
+    def setUp(self):
+        super(TestStaticView, self).setUp()
+        self.factory = RequestFactory()
+
+    def test_static_view(self):
+        request = self.factory.get('/templation/1234')  # Path is really irrelevant here
+        view = static_view(request, '1234', 'js/main.js', settings.TEMPLATION_DAV_ROOT)
+        self.assertEqual(view.content, "function hello_world() {\n\tconsole.log('hello_world');\n};\n")

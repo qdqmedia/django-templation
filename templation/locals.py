@@ -33,7 +33,7 @@ class LocalsManager(object):
         self.__locals__.resource = None
 
     @property
-    def thread(self):
+    def thread(self):  # pragma: no cover
         return current_thread()
 
     @property

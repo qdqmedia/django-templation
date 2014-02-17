@@ -4,7 +4,7 @@
 from . import BaseTest
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
-from templation.templatetags.static import static
+from templation.templatetags.templation_tags import static
 from templation.locals import thread_locals
 
 
