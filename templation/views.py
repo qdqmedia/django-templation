@@ -161,56 +161,6 @@ TEMPLATION_500_TEMPLATE = """
 <div id="summary">
   <h1>{% if exception_type %}{{ exception_type }}{% else %}Report{% endif %}{% if request %} at {{ request.path_info|escape }}{% endif %}</h1>
   <pre class="exception_value">{% if exception_value %}{{ exception_value|force_escape }}{% else %}No exception message supplied{% endif %}</pre>
-  <table class="meta">
-{% if request %}
-    <tr>
-      <th>Request Method:</th>
-      <td>{{ request.META.REQUEST_METHOD }}</td>
-    </tr>
-    <tr>
-      <th>Request URL:</th>
-      <td>{{ request.build_absolute_uri|escape }}</td>
-    </tr>
-{% endif %}
-    <tr>
-      <th>Django Version:</th>
-      <td>{{ django_version_info }}</td>
-    </tr>
-{% if exception_type %}
-    <tr>
-      <th>Exception Type:</th>
-      <td>{{ exception_type }}</td>
-    </tr>
-{% endif %}
-{% if exception_type and exception_value %}
-    <tr>
-      <th>Exception Value:</th>
-      <td><pre>{{ exception_value|force_escape }}</pre></td>
-    </tr>
-{% endif %}
-{% if lastframe %}
-    <tr>
-      <th>Exception Location:</th>
-      <td>{{ lastframe.filename|escape }} in {{ lastframe.function|escape }}, line {{ lastframe.lineno }}</td>
-    </tr>
-{% endif %}
-    <tr>
-      <th>Python Executable:</th>
-      <td>{{ sys_executable|escape }}</td>
-    </tr>
-    <tr>
-      <th>Python Version:</th>
-      <td>{{ sys_version_info }}</td>
-    </tr>
-    <tr>
-      <th>Python Path:</th>
-      <td><pre>{{ sys_path|pprint }}</pre></td>
-    </tr>
-    <tr>
-      <th>Server time:</th>
-      <td>{{server_time|date:"r"}}</td>
-    </tr>
-  </table>
 </div>
 {% if unicode_hint %}
 <div id="unicode-hint">
@@ -254,15 +204,6 @@ TEMPLATION_500_TEMPLATE = """
    {% endfor %}
    </table>
 </div>
-{% endif %}
-{% if not is_email %}
-  <div id="explanation">
-    <p>
-      You're seeing this error because you have <code>TEMPLATION_DEBUG = True</code> in your
-      Django settings file. Change that to <code>False</code>, and Django will
-      display a standard 500 page.
-    </p>
-  </div>
 {% endif %}
 </body>
 </html>
