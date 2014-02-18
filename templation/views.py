@@ -281,9 +281,6 @@ def server_error(request, template_name='500.html'):
        and get_resource_access_model().objects.filter(resource=thread_locals.resource):
         reporter = ExceptionReporter(request, exc_type, exc_value, exc_traceback)
 
-        if (settings.TEMPLATE_DEBUG and hasattr(exc_value, 'django_template_source')):
-            reporter.get_template_exception_info()
-
         t = Template(TEMPLATION_500_TEMPLATE, name='Technical 500 template')
         c = Context(reporter.get_traceback_data(), use_l10n=False)
         html = t.render(c)
