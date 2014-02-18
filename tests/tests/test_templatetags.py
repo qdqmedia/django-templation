@@ -16,9 +16,9 @@ class TestTemplationTemplateTags(BaseTest):
     def test_static_designer(self):
         thread_locals.user = self.user
         thread_locals.resource = self.resource
-        self.assertEquals(static('js/main.js'), '{}1234/js/main.js'.format(settings.TEMPLATION_DAV_STATIC_URL))
+        self.assertEquals(static('js/main.js'), '{0}1234/js/main.js'.format(settings.TEMPLATION_DAV_STATIC_URL))
 
     def test_static_validated_resource(self):
         thread_locals.user = AnonymousUser()
         thread_locals.resource = self.resource
-        self.assertEquals(static('js/main.js'), '{}1234/js/main.js'.format(settings.TEMPLATION_DAV_STATIC_URL))
+        self.assertEquals(static('js/main.js'), '{0}1234/js/main.js'.format(settings.TEMPLATION_DAV_STATIC_URL))

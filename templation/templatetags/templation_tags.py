@@ -14,8 +14,8 @@ def templation_url(url):
     Prefixes url with DAV_STATIC_URL
     """
 
-    resource_access = get_resource_access_model().objects.filter(resource=thread_locals.resource).first()
-    if (resource_access and resource_access.is_validated or
+    resource_access = get_resource_access_model().objects.filter(resource=thread_locals.resource)[:1]
+    if (resource_access and resource_access[0].is_validated or
        (thread_locals.user.is_staff and get_resource_access_model().objects.filter(user=thread_locals.user, resource=thread_locals.resource))):
         url = '/'.join((DAV_STATIC_URL.rstrip('/'),
                         str(thread_locals.resource.id),

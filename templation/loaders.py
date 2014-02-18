@@ -14,10 +14,10 @@ class TemplationLoader(Loader):
 
     def get_template_sources(self, template_name, template_dirs=None):
         """ Add the resource dir to the available dirs. """
-        resource_access = self._access.objects.filter(resource=thread_locals.resource).first()
-        if (resource_access and resource_access.is_validated or
+        resource_access = self._access.objects.filter(resource=thread_locals.resource)[:1]
+        if (resource_access and resource_access[0].is_validated or
            (thread_locals.user.is_staff and self._access.objects.filter(user=thread_locals.user, resource=thread_locals.resource))):
-                path = resource_access.get_path('templates')
+                path = resource_access[0].get_path('templates')
                 template_dirs = (path,) + (template_dirs or ())
 
         return super(TemplationLoader, self).get_template_sources(template_name,
