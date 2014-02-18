@@ -43,9 +43,6 @@ get_resource_access_model = lambda: \
                              'templation.models.ResourceAccess'))
 get_resource_model = lambda: import_from_path(RESOURCE_MODEL)
 
-DUMP_REPORT_STRATEGY = getattr(settings, 'TEMPLATION_DUMP_REPORT_STRATEGY',
-                               'templation.middleware.dump_report_strategy')
-
 DUMP_STACK_TRACE = getattr(settings, 'TEMPLATION_DUMP_STACK_TRACE', False)
 DUMP_EXCEPTIONS = getattr(settings, 'TEMPLATION_DUMP_EXCEPTION', (
     'TemplateDoesNotExist',

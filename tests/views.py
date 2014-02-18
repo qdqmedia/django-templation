@@ -28,12 +28,3 @@ class ExtendedView(ResourceStoreMixin, DetailView):
 
 class PublicView(TemplateView):
     template_name = 'load_ok.html'
-
-
-class DumpErrorOKView(TemplateView):
-    template_name = 'dump_error_ok.html'
-
-
-class DumpErrorKoView(TemplateView):
-    template_name = 'dump_error_ko.html'
-
