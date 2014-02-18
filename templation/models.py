@@ -55,7 +55,7 @@ def copy_boilerplate_folder(user_dir):
         shutil.rmtree(user_dir)  # copytree needs to create the dir...
         shutil.copytree(BOILERPLATE_FOLDER, user_dir)
     elif BOILERPLATE_FOLDER:   # pragma no cover
-        raise ValueError('{} is not a valid directory'.format(BOILERPLATE_FOLDER))
+        raise ValueError('{0} is not a valid directory'.format(BOILERPLATE_FOLDER))
 
 
 def create_resource_access(sender, instance, created, **kwargs):
