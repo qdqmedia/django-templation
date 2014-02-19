@@ -13,10 +13,8 @@ install:
 script:
   - tox
 env:
-  - TOXENV=py33-16
   - TOXENV=py27-16
   - TOXENV=py26-16
-  - TOXENV=py33-15
   - TOXENV=py27-15
   - TOXENV=py26-15
 # report coverage to coveralls.io
