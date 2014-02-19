@@ -42,6 +42,7 @@ Django settings
     TEMPLATION_DAV_STATIC_URL = '/templationdav/'  # URL to bind templation statics
     TEMPLATION_RESOURCE_MODEL = 'yourapp.models.MyResource'
     TEMPLATION_RESOURCE_ACCESS_MODEL = 'yourapp.models.CustomResourceAccessModel'  # OPTIONAL
+    TEMPLATION_SANDBOX_TEMPLATES = False # OPTIONAL
 
 
 Serving static content
@@ -103,4 +104,34 @@ Restricting template tags and filters
 You can set up a sandboxed environment for template designers restricting the use of builtin tags and filters
 and preloading the desired ones.
 
-TODO: write this well
+
+In django settings:
+
+.. code-block :: python
+
+    TEMPLATION_SANDBOX_TEMPLATES = True  # Enables the sandbox mode
+
+    # List of allowed tags
+    TEMPLATION_WHITELIST_TAGS = [
+        'comment', 'csrf_token', 'cycle', 'filter', 'firstof', 'for', 'if',
+        'ifchanged', 'now', 'regroup', 'spaceless', 'templatetag', 'url',
+        'widthratio', 'with', 'extends', 'include'
+    ]
+
+    # List of allowed filters
+    TEMPLATION_WHITELIST_FILTERS = [
+        'add', 'addslashes', 'capfirst', 'center', 'cut', 'date', 'default',
+        'default_if_none', 'dictsort', 'dictsortreversed', 'divisibleby', 'escape',
+        'escapejs', 'filesizeformat', 'first', 'fix_ampersands', 'floatformat',
+        'force_escape', 'get_digit', 'iriencode', 'join', 'last', 'length', 'length_is',
+        'linebreaks', 'linebreaksbr', 'linenumbers', 'ljust', 'lower', 'make_list',
+        'phone2numeric', 'pluralize', 'pprint', 'random', 'removetags', 'rjust', 'safe',
+        'safeseq', 'slice', 'slugify', 'stringformat', 'striptags', 'time', 'timesince',
+        'timeuntil', 'title', 'truncatewords', 'truncatewords_html', 'unordered_list',
+        'upper', 'urlencode', 'urlize', 'urlizetrunc', 'wordcount', 'wordwrap', 'yesno'
+    ]
+
+    # Preloaded tags
+    TEMPLATION_EXTRA_LIBRARIES = [
+        'yourapp.templatetags.yourapp_tags',
+    ]
