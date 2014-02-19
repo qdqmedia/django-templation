@@ -49,4 +49,6 @@ DUMP_EXCEPTIONS = getattr(settings, 'TEMPLATION_DUMP_EXCEPTION', (
     'TemplateSyntaxError',
 ))
 
+SECRET_KEY = getattr(settings, 'TEMPLATION_SECRET_KEY', settings.SECRET_KEY)
+
 VALIDATED_IDS_CACHE_TIME = getattr(settings, 'TEMPLATION_VALIDATED_IDS_CACHE_TIME', 60)

@@ -9,7 +9,8 @@ from django.db.models.signals import post_save
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from .settings import DAV_ROOT, PROVIDER_NAME, BOILERPLATE_INITIALIZER, \
-    get_resource_model, get_resource_access_model, BOILERPLATE_FOLDER, import_from_path
+    get_resource_model, get_resource_access_model, BOILERPLATE_FOLDER, import_from_path, \
+    SECRET_KEY
 
 
 class ResourceAccessManager(models.Manager):
@@ -42,7 +43,7 @@ class AbstractResourceAccess(models.Model):
         return os.path.join(DAV_ROOT, str(self.resource.id), append)
 
     def get_access_token(self):
-        return hmac.new(settings.SECRET_KEY, str(self.resource.id), hashlib.sha1).hexdigest()
+        return hmac.new(SECRET_KEY, str(self.resource.id), hashlib.sha1).hexdigest()
 
     def validate_access_token(self, token):
         return self.get_access_token() == token
