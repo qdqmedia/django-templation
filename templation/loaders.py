@@ -3,9 +3,10 @@ Wrapper for loading templates from the filesystem.
 """
 
 from __future__ import absolute_import
+from django.template.base import Template
 from django.template.loaders.app_directories import Loader
 from .settings import get_resource_access_model
-from .utils import will_override
+from .utils import will_override, use_safe_templates
 
 
 class TemplationLoader(Loader):
@@ -21,3 +22,12 @@ class TemplationLoader(Loader):
 
         return super(TemplationLoader, self).get_template_sources(template_name,
                                                                   template_dirs)
+
+    def load_template(self, template_name, template_dirs=None):
+        source, origin = self.load_template_source(template_name, template_dirs)
+        override, _ = will_override()
+        if override:
+            template = use_safe_templates(Template)(source)
+        else:
+            template = Template(source)
+        return template, origin

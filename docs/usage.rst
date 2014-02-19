@@ -42,20 +42,6 @@ Django settings
     TEMPLATION_DAV_STATIC_URL = '/templationdav/'  # URL to bind templation statics
     TEMPLATION_RESOURCE_MODEL = 'yourapp.models.MyResource'
     TEMPLATION_RESOURCE_ACCESS_MODEL = 'yourapp.models.CustomResourceAccessModel'  # OPTIONAL
-    TEMPLATION_BUILTIN_LIBRARIES = {
-        'django.template.defaultfilters': {
-            'exclude': {
-                'filters': ['pprint'],
-            }
-        },
-        'django.template.defaulttags': {
-            'exclude': {
-                'tags': ['load']
-            }
-        },
-        'django.template.loader_tags': {},
-        'templation.templatetags.static': {}
-    }
 
 
 Serving static content
@@ -117,23 +103,4 @@ Restricting template tags and filters
 You can set up a sandboxed environment for template designers restricting the use of builtin tags and filters
 and preloading the desired ones.
 
-This functionality is achived with `TEMPLATION_BUILTIN_LIBRARIES` setting.
-
-.. code-block :: python
-
-    TEMPLATION_BUILTIN_LIBRARIES = {
-        'django.template.defaultfilters': {
-            'exclude': {
-                'filters': ['pprint'],  # Filters defined in this list will be excluded
-            }
-        },
-        'django.template.defaulttags': {
-            'exclude': {
-                'tags': ['load']  # Tags defined in this list will be excluded
-            }
-        },
-
-        # List of preloaded templatetags
-        'django.template.loader_tags': {},
-        'templation.templatetags.static': {},
-    }
+TODO: write this well

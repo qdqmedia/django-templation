@@ -52,3 +52,32 @@ DUMP_EXCEPTIONS = getattr(settings, 'TEMPLATION_DUMP_EXCEPTION', (
 SECRET_KEY = getattr(settings, 'TEMPLATION_SECRET_KEY', settings.SECRET_KEY)
 
 VALIDATED_IDS_CACHE_TIME = getattr(settings, 'TEMPLATION_VALIDATED_IDS_CACHE_TIME', 60)
+
+
+# Default tag whitelist
+DEFAULT_WHITELIST_TAGS = [
+    'comment', 'csrf_token', 'cycle', 'filter', 'firstof', 'for', 'if',
+    'ifchanged', 'now', 'regroup', 'spaceless', 'templatetag', 'url',
+    'widthratio', 'with', 'extends', 'include'
+]
+WHITELIST_TAGS = getattr(settings, 'TEMPLATION_WHITELIST_TAGS', DEFAULT_WHITELIST_TAGS)
+
+# Default filter whitelist
+DEFAULT_WHITELIST_FILTERS = [
+    'add', 'addslashes', 'capfirst', 'center', 'cut', 'date', 'default',
+    'default_if_none', 'dictsort', 'dictsortreversed', 'divisibleby', 'escape',
+    'escapejs', 'filesizeformat', 'first', 'fix_ampersands', 'floatformat',
+    'force_escape', 'get_digit', 'iriencode', 'join', 'last', 'length', 'length_is',
+    'linebreaks', 'linebreaksbr', 'linenumbers', 'ljust', 'lower', 'make_list',
+    'phone2numeric', 'pluralize', 'pprint', 'random', 'removetags', 'rjust', 'safe',
+    'safeseq', 'slice', 'slugify', 'stringformat', 'striptags', 'time', 'timesince',
+    'timeuntil', 'title', 'truncatewords', 'truncatewords_html', 'unordered_list',
+    'upper', 'urlencode', 'urlize', 'urlizetrunc', 'wordcount', 'wordwrap', 'yesno'
+]
+WHITELIST_FILTERS = getattr(settings, 'TEMPLATION_WHITELIST_FILTERS', DEFAULT_WHITELIST_FILTERS)
+
+# Custom libraries to add to builtins
+DEFAULT_EXTRA_LIBRARIES = [
+    'templation.templatetags.templation_tags',
+]
+EXTRA_LIBRARIES = getattr(settings, 'TEMPLATION_EXTRA_LIBRARIES', DEFAULT_EXTRA_LIBRARIES)

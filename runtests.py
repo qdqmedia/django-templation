@@ -17,7 +17,6 @@ try:
         },
         ROOT_URLCONF="tests.urls",
         INSTALLED_APPS=[
-            'templation.builtins',
             "django.contrib.sessions",
             "django.contrib.auth",
             "django.contrib.contenttypes",
@@ -63,20 +62,6 @@ try:
         TEMPLATION_DAV_ROOT='/tmp/dav/',
         TEMPLATION_DAV_STATIC_URL='/templationdav/',
         TEMPLATION_RESOURCE_MODEL='tests.models.MyResource',
-        TEMPLATION_BUILTIN_LIBRARIES={
-            'django.template.defaultfilters': {
-                'exclude': {
-                    'filters': ['pprint'],
-                }
-            },
-            'django.template.defaulttags': {
-                'exclude': {
-                    'tags': ['load']
-                }
-            },
-            'django.template.loader_tags': {},
-            'templation.templatetags.templation_tags': {},
-        }
     )
 
     from django_nose import NoseTestSuiteRunner
