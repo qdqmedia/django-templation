@@ -59,7 +59,7 @@ SANDBOX_TEMPLATES = getattr(settings, 'TEMPLATION_SANDBOX_TEMPLATES', False)
 DEFAULT_WHITELIST_TAGS = [
     'comment', 'csrf_token', 'cycle', 'filter', 'firstof', 'for', 'if',
     'ifchanged', 'now', 'regroup', 'spaceless', 'templatetag', 'url',
-    'widthratio', 'with', 'extends', 'include'
+    'widthratio', 'with', 'extends', 'include', 'block'
 ]
 WHITELIST_TAGS = getattr(settings, 'TEMPLATION_WHITELIST_TAGS', DEFAULT_WHITELIST_TAGS)
 

@@ -115,7 +115,7 @@ In django settings:
     TEMPLATION_WHITELIST_TAGS = [
         'comment', 'csrf_token', 'cycle', 'filter', 'firstof', 'for', 'if',
         'ifchanged', 'now', 'regroup', 'spaceless', 'templatetag', 'url',
-        'widthratio', 'with', 'extends', 'include'
+        'widthratio', 'with', 'extends', 'include', 'block'
     ]
 
     # List of allowed filters
