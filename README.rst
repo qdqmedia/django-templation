@@ -14,6 +14,8 @@ django-templation
 .. image:: https://pypip.in/d/django-templation/badge.png
     :target: https://crate.io/packages/django-templation?version=latest
 
+.. image:: https://d2weczhvl823v0.cloudfront.net/qdqmedia/django-templation/trend.png
+    :target: https://bitdeli.com/free
 
 The easy way to allow designers edit templates and assets.
 
