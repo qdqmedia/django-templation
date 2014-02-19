@@ -55,4 +55,12 @@ class LocalsManager(object):
         else:
             self.__locals__.resource = get_object_or_404(self._model, pk=value)
 
+    @property
+    def token(self):
+        return getattr(self, '_token', '')
+
+    @token.setter
+    def token(self, value):
+        self._token = value
+
 thread_locals = LocalsManager()

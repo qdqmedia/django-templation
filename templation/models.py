@@ -2,6 +2,8 @@
 from __future__ import absolute_import
 import os
 import shutil
+import hmac
+import hashlib
 from django.db import models
 from django.db.models.signals import post_save
 from django.conf import settings
@@ -38,6 +40,12 @@ class AbstractResourceAccess(models.Model):
         if append and not append.endswith('/'):
             append += '/'
         return os.path.join(DAV_ROOT, str(self.resource.id), append)
+
+    def get_access_token(self):
+        return hmac.new(settings.SECRET_KEY, str(self.resource.id), hashlib.sha1).hexdigest()
+
+    def validate_access_token(self, token):
+        return self.get_access_token() == token
 
 
 class ResourceAccess(AbstractResourceAccess):

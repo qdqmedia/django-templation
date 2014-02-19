@@ -51,8 +51,11 @@ class TemplationMiddleware(object):
 
     def process_request(self, request):
         thread_locals.user = getattr(request, 'user', None)
+        thread_locals.token = request.GET.get('tt', '') or request.COOKIES.get('tt', '')
 
     def process_response(self, request, response):
+        if thread_locals.token:
+            response.set_cookie(key='tt', value=thread_locals.token)
         thread_locals.clear()
         return response
 
