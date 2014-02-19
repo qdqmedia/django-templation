@@ -26,5 +26,11 @@ class FilterDict(object):
         return self._original
 
 
-base.Parser.tags = FilterDict(base.Parser.tags, EXCLUDED['tags'])
-base.Parser.filters = FilterDict(base.Parser.filters, EXCLUDED['tags'])
+def Parser__init__(self, tokens):
+    self.tokens = tokens
+    self.tags = FilterDict(base.Parser.tags, EXCLUDED['tags'])
+    self.filters = FilterDict(base.Parser.filters, EXCLUDED['tags'])
+    for lib in builtins:
+        self.add_library(lib)
+
+base.Parser.__init__ = Parser__init__
