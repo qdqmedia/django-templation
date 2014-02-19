@@ -1,7 +1,7 @@
 testenv:
-	pip install -e .
-	pip install -r requirements-tests.txt
+	pip install -r requirements-test.txt
 	pip install Django
+	pip install -e .
 
 test:
 	flake8 templation --ignore=E501,E128,E701,E261,E301,E126,E127
