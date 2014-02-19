@@ -17,7 +17,7 @@ django-templation
 
 The easy way to allow designers edit templates and assets.
 
-.. image :: ../assets/workflow.png
+.. image :: https://raw.github.com/qdqmedia/django-templation/master/assets/workflow.png
 
 Documentation
 -------------
