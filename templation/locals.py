@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# flake8: noqa
 """
 Common entry point to store variables inside threads.
 """
@@ -19,8 +20,8 @@ class LocalsManager(object):
 
     >>> from templation.locals import thread_locals
 
-    >>> thread_locals.resource = primary_key  # this should fetch the instance and keep_it
-    >>> thread_locals.resource = resource_instance  # This prevents double fetch.
+    >>> thread_locals.resource = primary_key  #  noqa # this should fetch the instance and keep_it
+    >>> thread_locals.resource = resource_instance  # noqa # This prevents double fetch.
     """
 
     def __init__(self):

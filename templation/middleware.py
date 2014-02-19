@@ -3,8 +3,7 @@ import logging
 from django.contrib.auth import authenticate
 from wsgidav.wsgidav_app import DEFAULT_CONFIG
 from wsgidav.wsgidav_app import WsgiDAVApp
-from .settings import import_from_path, \
-    DAV_ROOT, PROVIDER_NAME
+from .settings import DAV_ROOT, PROVIDER_NAME
 from .models import ResourceAccess
 from .locals import thread_locals
 
