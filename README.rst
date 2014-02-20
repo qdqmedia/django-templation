@@ -41,3 +41,9 @@ Features
 * Resource Access administration via Django admin.
 * WebDAV access for designers to easily edit templates and static files from anywhere.
 * Sandboxed templates: restrict the use of Django builtin template tags and filters
+
+
+.. image:: https://d2weczhvl823v0.cloudfront.net/qdqmedia/django-templation/trend.png
+   :alt: Bitdeli badge
+   :target: https://bitdeli.com/free
+
