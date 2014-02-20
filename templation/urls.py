@@ -20,6 +20,6 @@ def templation_static(**kwargs):
     })
 
     return patterns('',
-        url(r'{0}/(?P<resource_id>.*)/(?P<path>.*)$'.format(DAV_STATIC_URL.lstrip('/')),
+        url(r'{0}/(?P<resource_id>\d+)/(?P<path>.*)$'.format(DAV_STATIC_URL.strip('/')),
             static_view, kwargs=kwargs),
     )
