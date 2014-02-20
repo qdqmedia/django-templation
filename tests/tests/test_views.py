@@ -127,4 +127,4 @@ class Test500View(BaseTest):
             request.user = self.user
             thread_locals.resource = self.resource
             view = server_error(request)
-            self.assertIn('<h1>TemplateSyntaxError at /index/1234/</h1>', view.content)
+            self.failUnless('<h1>TemplateSyntaxError at /index/1234/</h1>' in view.content)
