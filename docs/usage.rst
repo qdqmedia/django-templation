@@ -42,7 +42,7 @@ Django settings
     TEMPLATION_DAV_STATIC_URL = '/templationdav/'  # URL to bind templation statics
     TEMPLATION_RESOURCE_MODEL = 'yourapp.models.MyResource'
     TEMPLATION_RESOURCE_ACCESS_MODEL = 'yourapp.models.CustomResourceAccessModel'  # OPTIONAL
-    TEMPLATION_SANDBOX_TEMPLATES = False # OPTIONAL
+    TEMPLATION_SANDBOX = False # OPTIONAL
 
 
 Serving static content
@@ -109,7 +109,7 @@ In django settings:
 
 .. code-block :: python
 
-    TEMPLATION_SANDBOX_TEMPLATES = True  # Enables the sandbox mode
+    TEMPLATION_SANDBOX = True  # Enables the sandbox mode
 
     # List of allowed tags
     TEMPLATION_WHITELIST_TAGS = [

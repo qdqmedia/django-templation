@@ -62,7 +62,7 @@ try:
         TEMPLATION_DAV_ROOT='/tmp/dav/',
         TEMPLATION_DAV_STATIC_URL='/templationdav/',
         TEMPLATION_RESOURCE_MODEL='tests.models.MyResource',
-        TEMPLATION_SANDBOX_TEMPLATES=True,
+        TEMPLATION_SANDBOX=True,
     )
 
     from django_nose import NoseTestSuiteRunner

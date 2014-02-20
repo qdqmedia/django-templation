@@ -20,8 +20,8 @@ class LocalsManager(object):
 
     >>> from templation.locals import thread_locals
 
-    >>> thread_locals.resource = primary_key  #  noqa # this should fetch the instance and keep_it
-    >>> thread_locals.resource = resource_instance  # noqa # This prevents double fetch.
+    >>> thread_locals.resource = primary_key  # noqa this should fetch the instance and keep_it
+    >>> thread_locals.resource = resource_instance  # noqa This prevents double fetch.
     """
 
     def __init__(self):
@@ -32,6 +32,7 @@ class LocalsManager(object):
     def clear(self):
         self.__locals__.user = AnonymousUser()
         self.__locals__.resource = None
+        self.__locals__.token = ''
 
     @property
     def thread(self):  # pragma: no cover
@@ -58,10 +59,10 @@ class LocalsManager(object):
 
     @property
     def token(self):
-        return getattr(self, '_token', '')
+        return getattr(self.__locals__, 'token', '')
 
     @token.setter
     def token(self, value):
-        self._token = value
+        self.__locals__.token = value
 
 thread_locals = LocalsManager()
