@@ -22,6 +22,7 @@ try:
             "django.contrib.contenttypes",
             "django.contrib.staticfiles",
             "django.contrib.sites",
+            "django.contrib.admin",
             "templation",
             "tests",
         ],

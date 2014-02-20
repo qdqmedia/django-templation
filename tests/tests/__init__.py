@@ -27,13 +27,11 @@ class SetUpAccess(unittest.TestCase):
     def setUp(self):
         User = get_user_model()
 
-        self.user = User.objects.create_user(
+        self.user = User.objects.create_superuser(
             username='john',
             email='john@doe.com',
+            password='secret'
         )
-        self.user.set_password('secret')
-        self.user.is_staff = True
-        self.user.save()
 
         self.user_auth = 'Basic ' + \
             base64.encodestring('john:secret').replace('\n', '')
