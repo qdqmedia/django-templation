@@ -66,16 +66,9 @@ def use_safe_templates(tags=None, filters=None, extra=None):
                 template.base.builtins = default_libs
         return wrapped
 
-    if callable(tags):
-        # @use_safe_templates
-        func = tags
-        tags = WHITELIST_TAGS
-        filters = WHITELIST_FILTERS
-        extra = EXTRA_LIBRARIES
-        return decorate(func)
-    else:
-        # @use_safe_templates(...)
-        tags = tags or WHITELIST_TAGS
-        filters = filters or WHITELIST_FILTERS
-        extra = extra or EXTRA_LIBRARIES
-        return decorate
+    # @use_safe_templates
+    func = tags
+    tags = WHITELIST_TAGS
+    filters = WHITELIST_FILTERS
+    extra = EXTRA_LIBRARIES
+    return decorate(func)

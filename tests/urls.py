@@ -1,6 +1,5 @@
 from django.conf.urls import patterns, url
-from django.conf import settings
-from django.conf.urls.static import static
+from templation.urls import templation_static
 from .views import *
 
 urlpatterns = patterns(
@@ -10,4 +9,4 @@ urlpatterns = patterns(
     url(r'^extended/(?P<pk>\d+)/$', ExtendedView.as_view(), name='extended'),
     url(r'^fail/(?P<pk>\d+)/$', FailView.as_view(), name='fail'),
     url(r'^public_connection/$', PublicView.as_view(), name='public'),
-) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+) + templation_static()

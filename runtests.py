@@ -58,6 +58,7 @@ try:
             'templation.middleware.TemplationMiddleware',
         ),
 
+        TEMPLATION_DEBUG=True,
         TEMPLATION_BOILERPLATE_FOLDER=os.path.join(BASE_DIR, 'tests', 'boilerplate'),
         TEMPLATION_DAV_ROOT='/tmp/dav/',
         TEMPLATION_DAV_STATIC_URL='/templationdav/',

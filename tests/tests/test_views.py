@@ -5,7 +5,8 @@ from django.test.client import RequestFactory
 from django.template.base import TemplateSyntaxError
 from django.conf import settings
 from templation.settings import get_resource_model
-from templation.views import static_view
+from templation.views import static_view, server_error
+from templation.locals import thread_locals
 from . import BaseTest
 
 
@@ -102,3 +103,28 @@ class TestStaticView(BaseTest):
         request = self.factory.get('/templation/1234')  # Path is really irrelevant here
         view = static_view(request, '1234', 'js/main.js', settings.TEMPLATION_DAV_ROOT)
         self.assertEqual(view.content, "function hello_world() {\n\tconsole.log('hello_world');\n};\n")
+
+
+class Test500View(BaseTest):
+
+    def setUp(self):
+        super(Test500View, self).setUp()
+        self.factory = RequestFactory()
+
+    def test_default_server_error(self):
+        try:
+            raise ValueError('test')
+        except ValueError:
+            request = self.factory.get('/index/{0}/'.format(self.resource.id), follow=True)
+            view = server_error(request)
+            self.assertEqual(view.content, '<h1>Server Error (500)</h1>')
+
+    def test_custom_server_error(self):
+        try:
+            raise TemplateSyntaxError('test')
+        except TemplateSyntaxError:
+            request = self.factory.get('/index/{0}/'.format(self.resource.id), follow=True)
+            request.user = self.user
+            thread_locals.resource = self.resource
+            view = server_error(request)
+            self.assertIn('<h1>TemplateSyntaxError at /index/1234/</h1>', view.content)
