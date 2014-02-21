@@ -92,21 +92,50 @@ Edit `hello-templation/hellotemplation/hellotemplation/urls.py`
     )
 
 
-Create default template for the app
-
-.. code-block:: bash
-
-    $ mkdir -p core/templates/core
-
-.. note:: 
-    We created an initial template using `html5boilerplate`_, you can do the same or create your own template from scratch.
-
-.. _html5boilerplate: http://html5boilerplate.com
-
-
-
 Create index template (`hello-templation/hellotemplation/core/templates/core/index.html`)
 
 .. code-block:: html
 
-    source
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <title>Hello world!</title>
+        </head>
+        <body>
+            <p>Hello world!</p>
+        </body>
+    </html>
+
+
+Configure settings
+
+.. code-block:: python
+
+    ...
+    INSTALLED_APPS = (
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'core',  # Add your new app
+    )
+    ...
+
+    # Django-templation settings
+    TEMPLATION_DAV_ROOT = os.path.join(BASE_DIR, '..', 'dav')  # Make sure you create this folder
+    TEMPLATION_DAV_STATIC_URL = '/templation_static/'
+    TEMPLATION_RESOURCE_MODEL = 'core.models.Theme'
+
+Launch for the first time
+
+.. code-block:: bash
+
+    $ python manage.py syncdb
+    $ python manage.py runserver
+
+Go to `http://127.0.0.1:8000`_ and you will see the `Hello world!`.
+
+.. _http://127.0.0.1:8000: http://127.0.0.1:8000
