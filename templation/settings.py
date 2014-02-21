@@ -43,15 +43,12 @@ get_resource_access_model = lambda: \
                              'templation.models.ResourceAccess'))
 get_resource_model = lambda: import_from_path(RESOURCE_MODEL)
 
-DUMP_STACK_TRACE = getattr(settings, 'TEMPLATION_DUMP_STACK_TRACE', False)
 DUMP_EXCEPTIONS = getattr(settings, 'TEMPLATION_DUMP_EXCEPTION', (
     'TemplateDoesNotExist',
     'TemplateSyntaxError',
 ))
 
 SECRET_KEY = getattr(settings, 'TEMPLATION_SECRET_KEY', settings.SECRET_KEY)
-
-VALIDATED_IDS_CACHE_TIME = getattr(settings, 'TEMPLATION_VALIDATED_IDS_CACHE_TIME', 60)
 
 SANDBOX = getattr(settings, 'TEMPLATION_SANDBOX', False)
 

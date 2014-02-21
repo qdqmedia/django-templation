@@ -2,12 +2,16 @@
 Usage
 ========
 
-To use django-templation in a project::
+To use django-templation in a project
 
 
 Django settings
 ------------------
 
+
+
+Minimal Django configuration
+++++++++++++++++++++++++++++
 
 .. code-block :: python
 
@@ -41,8 +45,75 @@ Django settings
     TEMPLATION_DAV_ROOT = '/path/to/webdav/folder/'
     TEMPLATION_DAV_STATIC_URL = '/templationdav/'  # URL to bind templation statics
     TEMPLATION_RESOURCE_MODEL = 'yourapp.models.MyResource'
-    TEMPLATION_RESOURCE_ACCESS_MODEL = 'yourapp.models.CustomResourceAccessModel'  # OPTIONAL
-    TEMPLATION_SANDBOX = False # OPTIONAL
+
+
+Settings in detail
+++++++++++++++++++
+
+
+====================================  =================================================  ==========  ========================================================================
+Setting name                             Default value                                    Required    Description
+====================================  =================================================  ==========  ========================================================================
+`TEMPLATION_DAV_ROOT`                      \                                               Yes       Defines the root path of *WebDAV* folder where designers will
+                                                                                                     edit templates and static files.
+`TEMPLATION_DAV_STATIC_URL`                \                                               Yes       Defines the root url to access custom static files, it acts the
+                                                                                                     same way as Django's `STATIC_URL`, but only for `django-templation`.
+`TEMPLATION_RESOURCE_MODEL`                \                                               Yes       The model that represents the *tenant*, templates will be bound
+                                                                                                     to it.
+`TEMPLATION_PROVIDER_NAME`                 `'templation'`                                  No        Provider name for WebDAV server. It also acts as the root url to
+                                                                                                     access WebDAV folders.
+`TEMPLATION_BOILERPLATE_FOLDER`            `None`                                          No        Path to the folder containing the initial data for WebDAV shared
+                                                                                                     folders.
+`TEMPLATION_BOILERPLATE_INITIALIZER`     `'templation.models.copy_boilerplate_folder'`     No        Path to a Python callable that will be executed when resource access
+                                                                                                     object is created for the first time.
+`TEMPLATION_DUMP_EXCEPTION`           `('TemplateDoesNotExist', 'TemplateSyntaxError')`    No        Iterable of exception names that will be shown to the designers.
+`TEMPLATION_SECRET_KEY`                `SECRET_KEY`                                        No        `SECRET_KEY` used to generate access tokens.
+`TEMPLATION_SANDBOX`                   `False`                                             No        Activate sandbox environment for templates. Only whitelisted tags and
+                                                                                                     filters will be available.
+`TEMPLATION_WHITELIST_TAGS`            `DEFAULT_WHITELIST_TAGS`                            No        Safe template tags for sandbox.
+`TEMPLATION_WHITELIST_FILTERS`         `DEFAULT_WHITELIST_FILTERS`                         No        Safe template filters for sandbox.
+`TEMPLATION_EXTRA_LIBRARIES`           `DEFAULT_EXTRA_LIBRARIES`                           No        Preloaded tags and filters for sandbox.
+====================================  =================================================  ==========  ========================================================================
+
+
+DEFAULT_WHITELIST_TAGS
+``````````````````````
+
+.. code-block:: python
+
+    DEFAULT_WHITELIST_TAGS = [
+        'comment', 'csrf_token', 'cycle', 'filter', 'firstof', 'for', 'if',
+        'ifchanged', 'now', 'regroup', 'spaceless', 'templatetag', 'url',
+        'widthratio', 'with', 'extends', 'include', 'block'
+    ]
+
+
+DEFAULT_WHITELIST_FILTERS
+`````````````````````````
+
+.. code-block:: python
+
+    DEFAULT_WHITELIST_FILTERS = [
+        'add', 'addslashes', 'capfirst', 'center', 'cut', 'date', 'default',
+        'default_if_none', 'dictsort', 'dictsortreversed', 'divisibleby', 'escape',
+        'escapejs', 'filesizeformat', 'first', 'fix_ampersands', 'floatformat',
+        'force_escape', 'get_digit', 'iriencode', 'join', 'last', 'length', 'length_is',
+        'linebreaks', 'linebreaksbr', 'linenumbers', 'ljust', 'lower', 'make_list',
+        'phone2numeric', 'pluralize', 'pprint', 'random', 'removetags', 'rjust', 'safe',
+        'safeseq', 'slice', 'slugify', 'stringformat', 'striptags', 'time', 'timesince',
+        'timeuntil', 'title', 'truncatewords', 'truncatewords_html', 'unordered_list',
+        'upper', 'urlencode', 'urlize', 'urlizetrunc', 'wordcount', 'wordwrap', 'yesno'
+    ]
+
+
+DEFAULT_EXTRA_LIBRARIES
+```````````````````````
+
+.. code-block:: python
+
+    DEFAULT_EXTRA_LIBRARIES = [
+        'templation.templatetags.templation_tags',
+    ]
 
 
 Serving static content
@@ -83,7 +154,7 @@ The *Resource Model* can be any Django model.
 
 
 Resource Access Model
-+++++++++++++++++++
+++++++++++++++++++++++
 
 *Resource Access Model* controls when 'development' templates and static files are shown. 
 **Templation** comes with a default *Resource Access Model* but you can inherit from `AbstractResourceAccess` 
