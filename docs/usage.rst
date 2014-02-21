@@ -122,10 +122,13 @@ Serving static content
 `TEMPLATION_DAV_STATIC_URL` defines the URL which serves customized statics. You need to
 configure your web server (like NGINX) to serve this files properly
 
+
+In this example `TEMPLATION_DAV_STATIC_URL` is set to `/templationdav/`:
+
 .. code-block :: nginx
 
     server {
-        listen 8080;
+        listen 80;
 
         location ~ ^/templationdav/(\d+)/(.*)$ {
             alias /your/davroot/$1/static/$2;
@@ -141,7 +144,28 @@ configure your web server (like NGINX) to serve this files properly
             uwsgi_param    SCRIPT_NAME '';
         }
     }
-    
+
+
+Static content in development mode
+++++++++++++++++++++++++++++++++++
+
+To serve templation's static content from development server (`python manage.py runserver`) it is necessary to add `templation_static()` to your url patterns
+in your `urls.py`:
+
+.. code-block :: python
+
+    from django.conf.urls import patterns, url, include
+    from django.contrib import admin
+    from templation.urls import templation_static  # Important line
+    from .views import *
+
+    admin.autodiscover()
+
+    urlpatterns = patterns(
+        '',
+        url(r'^admin/', include(admin.site.urls)),
+        url(r'^index/$', index, name='index'),
+    ) + templation_static()  # Important line
 
 
 Customizations
