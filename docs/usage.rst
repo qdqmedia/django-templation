@@ -72,6 +72,7 @@ Setting name                             Default value                          
 `TEMPLATION_WHITELIST_TAGS`            `DEFAULT_WHITELIST_TAGS`                            No        Safe template tags for sandbox.
 `TEMPLATION_WHITELIST_FILTERS`         `DEFAULT_WHITELIST_FILTERS`                         No        Safe template filters for sandbox.
 `TEMPLATION_EXTRA_LIBRARIES`           `DEFAULT_EXTRA_LIBRARIES`                           No        Preloaded tags and filters for sandbox.
+`TEMPLATION_DEBUG`                     `False`                                             No        Activate templation's custom 500 error debug page.
 ====================================  =================================================  ==========  ========================================================================
 
 
@@ -269,3 +270,25 @@ In django settings:
     TEMPLATION_EXTRA_LIBRARIES = [
         'yourapp.templatetags.yourapp_tags',
     ]
+
+
+Debug 500 errors for designers
+++++++++++++++++++++++++++++++
+
+Designers may be overwhelmed by django's default 500 error page in debug mode, so `django-templation` includes
+a custom 500 error view that shows debug information for the exceptions defined in `TEMPLATION_DUMP_EXCEPTION` setting.
+
+To activate this functionality you have to add these lines to your `urls.py`
+
+
+.. code-block:: python
+
+    from django.conf.urls import *
+    handler500 = 'templation.views.server_error'
+
+
+===========================  ==========================================
+ Required settings           Example value
+===========================  ==========================================
+`TEMPLATION_DEBUG`           `True`
+===========================  ==========================================

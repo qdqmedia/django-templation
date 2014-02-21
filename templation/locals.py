@@ -55,7 +55,10 @@ class LocalsManager(object):
         if isinstance(value, self._model):
             self.__locals__.resource = value
         else:
-            self.__locals__.resource = get_object_or_404(self._model, pk=value)
+            try:
+                self.__locals__.resource = self._model.objects.get(pk=value)
+            except self._model.DoesNotExist:
+                self.__locals__.resource = None
 
     @property
     def token(self):
