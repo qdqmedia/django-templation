@@ -9,7 +9,6 @@ Django settings
 ------------------
 
 
-
 Minimal Django configuration
 ++++++++++++++++++++++++++++
 
@@ -114,6 +113,46 @@ DEFAULT_EXTRA_LIBRARIES
     DEFAULT_EXTRA_LIBRARIES = [
         'templation.templatetags.templation_tags',
     ]
+
+
+Enable WebDAV in your Django project
+------------------------------------
+
+`django-templation` uses `WsgiDAV`_ to expose WebDAV folders. To enable this functionality you must edit your `wsgi.py` file:
+
+.. code-block:: python
+
+    import os
+
+    # We defer to a DJANGO_SETTINGS_MODULE already in the environment. This breaks
+    # if running multiple sites in the same mod_wsgi process. To fix this, use
+    # mod_wsgi daemon mode with each site in its own daemon process, or use
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "yourproject.settings")
+
+    # This application object is used by any WSGI server configured to use this
+    # file. This includes Django's development server, if the WSGI_APPLICATION
+    # setting points here.
+    from django.core.wsgi import get_wsgi_application
+    application = get_wsgi_application()
+
+    # Apply WSGI middleware here.
+    # from helloworld.wsgi import HelloWorldApplication
+    # application = HelloWorldApplication(application)
+
+    from templation.middleware import WsgiDAVMiddleware
+    application = WsgiDAVMiddleware(application)
+
+.. _WsgiDAV: http://wsgidav.readthedocs.org/en/latest/
+
+
+
+===========================  ==========================================
+ Required settings           Example value
+===========================  ==========================================
+`TEMPLATION_DAV_ROOT`        `/var/www/dav/`
+`TEMPLATION_PROVIDER_NAME`   `templation`
+===========================  ==========================================
+
 
 
 Serving static content
