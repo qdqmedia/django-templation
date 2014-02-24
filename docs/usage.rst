@@ -307,6 +307,8 @@ The ``ResourceAccess`` (`RA`) object defines if a user can access a *WebDAV* fol
 - ``get_access_token()`` method: Returns an access token that allows everyone to see the customized version for this resource.
 
 
+.. note:: You can also get the access token in the admin detail view of ``ResourceAccess`` object.
+
 
 Table defining if the customized template is shown or not:
 
