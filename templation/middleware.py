@@ -3,7 +3,8 @@ import logging
 from django.contrib.auth import authenticate
 from wsgidav.wsgidav_app import DEFAULT_CONFIG
 from wsgidav.wsgidav_app import WsgiDAVApp
-from .settings import DAV_ROOT, PROVIDER_NAME
+from .settings import import_from_path, \
+    DAV_ROOT, PROVIDER_NAME
 from .models import ResourceAccess
 from .locals import thread_locals
 
@@ -41,7 +42,7 @@ class WsgiDAVMiddleware(object):
         self.django_app = django_app
 
     def __call__(self, environ, start_response):
-        if environ.get('PATH_INFO').startswith('/' + PROVIDER_NAME):
+        if environ.get('PATH_INFO').startswith('/' + PROVIDER_NAME.strip('/') + '/'):
             return wsgidav_app(environ, start_response)
         return self.django_app(environ, start_response)
 
