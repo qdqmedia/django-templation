@@ -293,3 +293,5 @@ Edit ``dav/1/static/css/main.css``:
     }
 
 Go to `http://127.0.0.1:8000`_ and you will see a fancier `Hello world!`.
+
+.. warning:: Not showing the fancy Hello World? Checkout :ref:`visibility` section.

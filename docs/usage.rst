@@ -295,6 +295,8 @@ To activate this functionality you have to add these lines to your ``urls.py``
 ===========================  ==========================================
 
 
+.. _visibility:
+
 Visibility of custom templates
 ------------------------------
 
