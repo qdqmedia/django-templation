@@ -50,30 +50,31 @@ Settings in detail
 ++++++++++++++++++
 
 
-====================================  =================================================  ==========  ========================================================================
-Setting name                             Default value                                    Required    Description
-====================================  =================================================  ==========  ========================================================================
-`TEMPLATION_DAV_ROOT`                      \                                               Yes       Defines the root path of *WebDAV* folder where designers will
-                                                                                                     edit templates and static files.
-`TEMPLATION_DAV_STATIC_URL`                \                                               Yes       Defines the root url to access custom static files, it acts the
-                                                                                                     same way as Django's `STATIC_URL`, but only for `django-templation`.
-`TEMPLATION_RESOURCE_MODEL`                \                                               Yes       The model that represents the *tenant*, templates will be bound
-                                                                                                     to it.
-`TEMPLATION_PROVIDER_NAME`                 `'templation'`                                  No        Provider name for WebDAV server. It also acts as the root url to
-                                                                                                     access WebDAV folders.
-`TEMPLATION_BOILERPLATE_FOLDER`            `None`                                          No        Path to the folder containing the initial data for WebDAV shared
-                                                                                                     folders.
-`TEMPLATION_BOILERPLATE_INITIALIZER`     `'templation.models.copy_boilerplate_folder'`     No        Path to a Python callable that will be executed when resource access
-                                                                                                     object is created for the first time.
-`TEMPLATION_DUMP_EXCEPTION`           `('TemplateDoesNotExist', 'TemplateSyntaxError')`    No        Iterable of exception names that will be shown to the designers.
-`TEMPLATION_SECRET_KEY`                `SECRET_KEY`                                        No        `SECRET_KEY` used to generate access tokens.
-`TEMPLATION_SANDBOX`                   `False`                                             No        Activate sandbox environment for templates. Only whitelisted tags and
-                                                                                                     filters will be available.
-`TEMPLATION_WHITELIST_TAGS`            `DEFAULT_WHITELIST_TAGS`                            No        Safe template tags for sandbox.
-`TEMPLATION_WHITELIST_FILTERS`         `DEFAULT_WHITELIST_FILTERS`                         No        Safe template filters for sandbox.
-`TEMPLATION_EXTRA_LIBRARIES`           `DEFAULT_EXTRA_LIBRARIES`                           No        Preloaded tags and filters for sandbox.
-`TEMPLATION_DEBUG`                     `False`                                             No        Activate templation's custom 500 error debug page.
-====================================  =================================================  ==========  ========================================================================
+======================================  =====================================================  ==========  ==================================================================
+Setting name                              Default value                                        Required    Description
+======================================  =====================================================  ==========  ==================================================================
+``TEMPLATION_DAV_ROOT``                      \                                                   Yes       Defines the root path of *WebDAV* folder where designers will
+                                                                                                           edit templates and static files.
+``TEMPLATION_DAV_STATIC_URL``                \                                                   Yes       Defines the root url to access custom static files, it acts the
+                                                                                                           same way as Django's ``STATIC_URL``, but only for 
+                                                                                                           ``django-templation``.
+``TEMPLATION_RESOURCE_MODEL``                \                                                   Yes       The model that represents the *tenant*, templates will be bound
+                                                                                                           to it.
+``TEMPLATION_PROVIDER_NAME``                 ``'templation'``                                    No        Provider name for WebDAV server. It also acts as the root url to
+                                                                                                           access WebDAV folders.
+``TEMPLATION_BOILERPLATE_FOLDER``            ``None``                                            No        Path to the folder containing the initial data for WebDAV shared
+                                                                                                           folders.
+``TEMPLATION_BOILERPLATE_INITIALIZER``     ``'templation.models.copy_boilerplate_folder'``       No        Path to a Python callable that will be executed when resource 
+                                                                                                           access object is created for the first time.
+``TEMPLATION_DUMP_EXCEPTION``            ``('TemplateDoesNotExist', 'TemplateSyntaxError')``     No        Iterable of exception names that will be shown to the designers.
+``TEMPLATION_SECRET_KEY``                ``SECRET_KEY``                                          No        ``SECRET_KEY`` used to generate access tokens.
+``TEMPLATION_SANDBOX``                   ``False``                                               No        Activate sandbox environment for templates. Only whitelisted 
+                                                                                                           tags and filters will be available.
+``TEMPLATION_WHITELIST_TAGS``            ``DEFAULT_WHITELIST_TAGS``                              No        Safe template tags for sandbox.
+``TEMPLATION_WHITELIST_FILTERS``         ``DEFAULT_WHITELIST_FILTERS``                           No        Safe template filters for sandbox.
+``TEMPLATION_EXTRA_LIBRARIES``           ``DEFAULT_EXTRA_LIBRARIES``                             No        Preloaded tags and filters for sandbox.
+``TEMPLATION_DEBUG``                     ``False``                                               No        Activate templation's custom 500 error debug page.
+======================================  =====================================================  ==========  ==================================================================
 
 
 DEFAULT_WHITELIST_TAGS
@@ -147,23 +148,23 @@ Enable WebDAV in your Django project
 
 
 
-===========================  ==========================================
- Required settings           Example value
-===========================  ==========================================
-`TEMPLATION_DAV_ROOT`        `/var/www/dav/`
-`TEMPLATION_PROVIDER_NAME`   `templation`
-===========================  ==========================================
+============================  ==========================================
+ Required settings            Example value
+============================  ==========================================
+``TEMPLATION_DAV_ROOT``        ``/var/www/dav/``
+``TEMPLATION_PROVIDER_NAME``   ``templation``
+============================  ==========================================
 
 
 
 Serving static content
 -----------------------
 
-`TEMPLATION_DAV_STATIC_URL` defines the URL which serves customized statics. You need to
+``TEMPLATION_DAV_STATIC_URL`` defines the URL which serves customized statics. You need to
 configure your web server (like NGINX) to serve this files properly
 
 
-In this example `TEMPLATION_DAV_STATIC_URL` is set to `/templationdav/`:
+In this example ``TEMPLATION_DAV_STATIC_URL`` is set to ``/templationdav/``:
 
 .. code-block :: nginx
 
@@ -189,8 +190,8 @@ In this example `TEMPLATION_DAV_STATIC_URL` is set to `/templationdav/`:
 Static content in development mode
 ++++++++++++++++++++++++++++++++++
 
-To serve templation's static content from development server (`python manage.py runserver`) it is necessary to add `templation_static()` to your url patterns
-in your `urls.py`:
+To serve templation's static content from development server (``python manage.py runserver``) it is necessary to add ``templation_static()`` to your url patterns
+in your ``urls.py``:
 
 .. code-block :: python
 
@@ -221,7 +222,7 @@ Resource Access Model
 ++++++++++++++++++++++
 
 *Resource Access Model* controls when 'development' templates and static files are shown. 
-**Templation** comes with a default *Resource Access Model* but you can inherit from `AbstractResourceAccess` 
+**Templation** comes with a default *Resource Access Model* but you can inherit from ``AbstractResourceAccess``
 and make your custom one
 
 .. code-block :: python
@@ -276,9 +277,9 @@ Debug 500 errors for designers
 ++++++++++++++++++++++++++++++
 
 Designers may be overwhelmed by django's default 500 error page in debug mode, so `django-templation` includes
-a custom 500 error view that shows debug information for the exceptions defined in `TEMPLATION_DUMP_EXCEPTION` setting.
+a custom 500 error view that shows debug information for the exceptions defined in ``TEMPLATION_DUMP_EXCEPTION`` setting.
 
-To activate this functionality you have to add these lines to your `urls.py`
+To activate this functionality you have to add these lines to your ``urls.py``
 
 
 .. code-block:: python
@@ -290,5 +291,5 @@ To activate this functionality you have to add these lines to your `urls.py`
 ===========================  ==========================================
  Required settings           Example value
 ===========================  ==========================================
-`TEMPLATION_DEBUG`           `True`
+``TEMPLATION_DEBUG``         ``True``
 ===========================  ==========================================
