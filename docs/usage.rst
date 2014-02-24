@@ -293,3 +293,26 @@ To activate this functionality you have to add these lines to your ``urls.py``
 ===========================  ==========================================
 ``TEMPLATION_DEBUG``         ``True``
 ===========================  ==========================================
+
+
+Visibility of custom templates
+------------------------------
+
+The ``ResourceAccess`` (`RA`) object defines if a user can access a *WebDAV* folder associated with a object of class
+``TEMPLATION_RESOURCE_MODEL``.
+
+``ResourceAccess`` has two interesting properties:
+
+- ``is_validated`` field: Indicates if the customized resources will be available for everyone.
+- ``get_access_token()`` method: Returns an access token that allows everyone to see the customized version for this resource.
+
+
+
+Table defining if the customized template is shown or not:
+
+=============================  ======  ===================  ===============  =================
+User type                      No RA   RA (not validated)   RA (validated)   Access token
+=============================  ======  ===================  ===============  =================
+User with ``ResourceAccess``   No      Yes                  Yes              Yes
+Others                         No      No                   Yes              Yes
+=============================  ======  ===================  ===============  =================
