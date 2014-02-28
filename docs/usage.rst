@@ -50,35 +50,138 @@ Settings in detail
 ++++++++++++++++++
 
 
-======================================  =====================================================  ==========  ==================================================================
-Setting name                              Default value                                        Required    Description
-======================================  =====================================================  ==========  ==================================================================
-``TEMPLATION_DAV_ROOT``                      \                                                   Yes       Defines the root path of *WebDAV* folder where designers will
-                                                                                                           edit templates and static files.
-``TEMPLATION_DAV_STATIC_URL``                \                                                   Yes       Defines the root url to access custom static files, it acts the
-                                                                                                           same way as Django's ``STATIC_URL``, but only for 
-                                                                                                           ``django-templation``.
-``TEMPLATION_RESOURCE_MODEL``                \                                                   Yes       The model that represents the *tenant*, templates will be bound
-                                                                                                           to it.
-``TEMPLATION_PROVIDER_NAME``                 ``'templation'``                                    No        Provider name for WebDAV server. It also acts as the root url to
-                                                                                                           access WebDAV folders.
-``TEMPLATION_BOILERPLATE_FOLDER``            ``None``                                            No        Path to the folder containing the initial data for WebDAV shared
-                                                                                                           folders.
-``TEMPLATION_BOILERPLATE_INITIALIZER``     ``'templation.models.copy_boilerplate_folder'``       No        Path to a Python callable that will be executed when resource 
-                                                                                                           access object is created for the first time.
-``TEMPLATION_DUMP_EXCEPTION``            ``('TemplateDoesNotExist', 'TemplateSyntaxError')``     No        Iterable of exception names that will be shown to the designers.
-``TEMPLATION_SECRET_KEY``                ``SECRET_KEY``                                          No        ``SECRET_KEY`` used to generate access tokens.
-``TEMPLATION_SANDBOX``                   ``False``                                               No        Activate sandbox environment for templates. Only whitelisted 
-                                                                                                           tags and filters will be available.
-``TEMPLATION_WHITELIST_TAGS``            ``DEFAULT_WHITELIST_TAGS``                              No        Safe template tags for sandbox.
-``TEMPLATION_WHITELIST_FILTERS``         ``DEFAULT_WHITELIST_FILTERS``                           No        Safe template filters for sandbox.
-``TEMPLATION_EXTRA_LIBRARIES``           ``DEFAULT_EXTRA_LIBRARIES``                             No        Preloaded tags and filters for sandbox.
-``TEMPLATION_DEBUG``                     ``False``                                               No        Activate templation's custom 500 error debug page.
-======================================  =====================================================  ==========  ==================================================================
+TEMPLATION_DAV_ROOT
+^^^^^^^^^^^^^^^^^^^
+
+Default value: ``N/A``
+
+Required: Yes
+
+Defines the root path of *WebDAV* folder where designers will edit templates and static files.
+
+
+TEMPLATION_DAV_STATIC_URL
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Default value: ``N/A``
+
+Required: Yes
+
+Defines the root url to access custom static files, it acts the same way as Django's ``STATIC_URL``, but only for ``django-templation``.
+
+
+TEMPLATION_RESOURCE_MODEL
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Default value: ``N/A``
+
+Required: Yes
+
+The model that represents the *tenant*, templates will be bound to it.
+
+
+TEMPLATION_PROVIDER_NAME
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Default value: ``'templation'``
+
+Required: No
+
+Provider name for WebDAV server. It also acts as the root url to access WebDAV folders.
+
+
+TEMPLATION_BOILERPLATE_INITIALIZER
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Default value: ``'templation.models.copy_boilerplate_folder'``
+
+Required: No
+
+Path to a Python callable that will be executed when resource access object is created for the first time.
+
+
+TEMPLATION_BOILERPLATE_FOLDER
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Default value: ``None``
+
+Required: No
+
+Path to the folder containing the initial data for WebDAV shared folders.
+
+
+TEMPLATION_DUMP_EXCEPTION
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Default value: ``('TemplateDoesNotExist', 'TemplateSyntaxError')``
+
+Required: No
+
+Iterable of exception names that will be shown to the designers.
+
+
+TEMPLATION_SECRET_KEY
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Default value: ``SECRET_KEY``
+
+Required: No
+
+``SECRET_KEY`` used to generate access tokens.
+
+
+TEMPLATION_SANDBOX
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Default value: ``False``
+
+Required: No
+
+Activate sandbox environment for templates. Only whitelisted tags and filters will be available.
+
+
+TEMPLATION_WHITELIST_TAGS
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Default value: ``DEFAULT_WHITELIST_TAGS``
+
+Required: No
+
+Safe template tags for sandbox.
+
+
+TEMPLATION_WHITELIST_FILTERS
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Default value: ``DEFAULT_WHITELIST_FILTERS``
+
+Required: No
+
+Safe template filters for sandbox.
+
+
+TEMPLATION_EXTRA_LIBRARIES
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Default value: ``DEFAULT_EXTRA_LIBRARIES``
+
+Required: No
+
+Preloaded tags and filters for sandbox.
+
+
+TEMPLATION_DEBUG
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Default value: ``False``
+
+Required: No
+
+Activate templation's custom 500 error debug page.
 
 
 DEFAULT_WHITELIST_TAGS
-``````````````````````
+^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
 
@@ -90,7 +193,7 @@ DEFAULT_WHITELIST_TAGS
 
 
 DEFAULT_WHITELIST_FILTERS
-`````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
 
