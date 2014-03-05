@@ -47,7 +47,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'django-templation'
-copyright = u'2014, QDQ Media S.A.U.'
+copyright = u'2014, QDQ media S.A.U.'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -193,7 +193,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'django-templation.tex', u'django-templation Documentation',
-   u'QDQ Media S.A.U.', 'manual'),
+   u'QDQ media S.A.U.', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -223,7 +223,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'django-templation', u'django-templation Documentation',
-     [u'QDQ Media S.A.U.'], 1)
+     [u'QDQ media S.A.U.'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -237,7 +237,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'django-templation', u'django-templation Documentation',
-   u'QDQ Media S.A.U.', 'django-templation', 'One line description of project.',
+   u'QDQ media S.A.U.', 'django-templation', 'One line description of project.',
    'Miscellaneous'),
 ]
 

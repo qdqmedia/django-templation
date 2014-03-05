@@ -5,7 +5,7 @@ Credits
 Development Lead
 ----------------
 
-* QDQ Media S.A.U. <tecnologia@qdqmedia.com>
+* QDQ media S.A.U. <tecnologia@qdqmedia.com>
 
 Contributors
 ------------

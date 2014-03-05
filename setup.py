@@ -36,7 +36,7 @@ setup(
     version=version,
     description="""The easy way to allow designers edit templates and assets.""",
     long_description=readme + '\n\n' + history,
-    author='QDQ Media S.A.U.',
+    author='QDQ media S.A.U.',
     author_email='tecnologia@qdqmedia.com',
     url='https://github.com/qdqmedia/django-templation',
     packages=[
