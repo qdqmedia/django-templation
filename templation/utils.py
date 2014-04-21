@@ -5,6 +5,7 @@ from .locals import thread_locals
 from .settings import get_resource_access_model, WHITELIST_TAGS, WHITELIST_FILTERS, EXTRA_LIBRARIES
 from importlib import import_module
 
+
 def will_override():
     """
     Test the necessary conditions for a template to be overwritten
