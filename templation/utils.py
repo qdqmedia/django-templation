@@ -5,7 +5,6 @@ from .locals import thread_locals
 from .settings import get_resource_access_model, WHITELIST_TAGS, WHITELIST_FILTERS, EXTRA_LIBRARIES
 from importlib import import_module
 
-
 def will_override():
     """
     Test the necessary conditions for a template to be overwritten
@@ -81,6 +80,6 @@ def get_class(module_name, cls_name):
         module = import_module(module_name)
         return getattr(module, cls_name)
     except ImportError:
-        raise ImportError('Invalid class path: {}'.format(module_name))
+        raise ImportError('Invalid class path: {0}'.format(module_name))
     except AttributeError:
-        raise ImportError('Invalid class name: {}'.format(cls_name))
+        raise ImportError('Invalid class name: {0}'.format(cls_name))

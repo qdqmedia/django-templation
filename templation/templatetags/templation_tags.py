@@ -69,9 +69,13 @@ def get_model_info(thing):
     else:
         raise TemplateSyntaxError('Wrong paramer type for %s' % str(thing))
 
+    app_label = meta.app_label
+    model_name = getattr(meta, 'model_name', None) or \
+        getattr(meta, 'module_name').lower()  # meta.model_name is for Django < 1.6 compatibility
+
     return {
-        'app_label': meta.app_label,
-        'model_name': meta.model_name,
+        'app_label': app_label,
+        'model_name': model_name,
     }
 
 
