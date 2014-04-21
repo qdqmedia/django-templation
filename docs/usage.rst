@@ -449,4 +449,29 @@ the page they're working on.
 ``templation_tags.get_model_info`` can additionally be used to link to models documentation in the
 `Django admin documentation generator`_.
 
+This is an example template block showcasing the integration that can be achieved:
+
+.. code-block:: django
+
+    {% load templation_tags %}
+    {% is_trusted_request as show_this %}
+
+    {% if show_this %}
+    <div>
+        {% if object %}
+            {% get_model_info object as model_info %}
+        {% elif object_list %}
+            {% get_model_info object_list as model_info %}
+        {% endif %}
+
+        <a href="{% url "django-admindocs-docroot" %}">Documentation</a> -
+        <strong>Model:</strong>
+            <a href="{% url 'django-admindocs-models-detail' app_label=model_info.app_label model_name=model_info.model_name %}">{{ model_info.model_name|capfirst }}</a> -
+        <strong>View:</strong>
+            <a href="{% url 'django-admindocs-views-detail' templation_view %}">{{ templation_view }}</a>
+        <strong>Template:</strong>
+            {{ templation_template }}
+    </div>
+    {% endif %}
+
 .. _Django admin documentation generator: https://docs.djangoproject.com/en/dev/ref/contrib/admin/admindocs/
