@@ -1,11 +1,13 @@
 from __future__ import absolute_import
 import logging
 from django.contrib.auth import authenticate
+from django.conf import settings
 from wsgidav.wsgidav_app import DEFAULT_CONFIG
 from wsgidav.wsgidav_app import WsgiDAVApp
 from .settings import DAV_ROOT, PROVIDER_NAME
 from .models import ResourceAccess
 from .locals import thread_locals
+from .utils import get_class
 
 logger = logging.getLogger(__name__)
 
@@ -60,3 +62,14 @@ class TemplationMiddleware(object):
 
     def process_exception(self, request, exception):
         thread_locals.clear()  # leave a clean state
+
+    def process_view(self, request, view_func, view_args, view_kwargs):
+        if request.META.get('REMOTE_ADDR') in settings.INTERNAL_IPS or (request.user.is_active and request.user.is_staff):
+            request._templation_view = "{0}.{1}".format(view_func.__module__, view_func.__name__)
+            try:
+                view_cls = get_class(view_func.__module__, view_func.__name__)
+            except ImportError:
+                pass
+            else:
+                if hasattr(view_cls, 'template_name'):
+                    request._templation_template = view_cls.template_name
