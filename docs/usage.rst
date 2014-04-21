@@ -423,3 +423,30 @@ User type                      No RA   RA (not validated)   RA (validated)   Acc
 User with ``ResourceAccess``   No      Yes                  Yes              Yes
 Others                         No      No                   Yes              Yes
 =============================  ======  ===================  ===============  =================
+
+Extra goodies
+-------------
+
+``templation_tags.is_trusted_request`` is a template tags which tells whether a request comes from a trusted source. (an
+ip address listed in ``settings.INTERNAL_IPS`` or an active, staff user). This can be used to show further debugging
+information in the template being rendered.
+
+`django-templation` comes with a custom context processor and a template tag which will help showing this additional
+information to the designer.
+
+The ``context_processor.templation_info`` context processor pushes two new variables into the templates context.
+Together with the `Django admin documentation generator`_, you can point designers to documentation which is relevant to
+the page they're working on.
+
+===========================  ==========================================
+ Variable name               Example value
+===========================  ==========================================
+``templation_view``          ``app.views.ItemList``
+``templation_template``      ``item_list.html``
+===========================  ==========================================
+
+
+``templation_tags.get_model_info`` can additionally be used to link to models documentation in the
+`Django admin documentation generator`_.
+
+.. _Django admin documentation generator: https://docs.djangoproject.com/en/dev/ref/contrib/admin/admindocs/

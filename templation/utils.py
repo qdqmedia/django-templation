@@ -3,6 +3,7 @@ from django.utils.functional import wraps
 from django import template
 from .locals import thread_locals
 from .settings import get_resource_access_model, WHITELIST_TAGS, WHITELIST_FILTERS, EXTRA_LIBRARIES
+from importlib import import_module
 
 
 def will_override():
@@ -72,3 +73,14 @@ def use_safe_templates(tags=None, filters=None, extra=None):
     filters = WHITELIST_FILTERS
     extra = EXTRA_LIBRARIES
     return decorate(func)
+
+
+def get_class(module_name, cls_name):
+    """Grab a class reference given its module and name"""
+    try:
+        module = import_module(module_name)
+        return getattr(module, cls_name)
+    except ImportError:
+        raise ImportError('Invalid class path: {0}'.format(module_name))
+    except AttributeError:
+        raise ImportError('Invalid class name: {0}'.format(cls_name))

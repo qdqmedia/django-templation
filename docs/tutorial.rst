@@ -142,6 +142,17 @@ Configure settings
         'templation.middleware.TemplationMiddleware',
     )
 
+    TEMPLATE_CONTEXT_PROCESSORS = (
+        'django.contrib.auth.context_processors.auth',
+        'django.core.context_processors.debug',
+        'django.core.context_processors.i18n',
+        'django.core.context_processors.media',
+        'django.core.context_processors.static',
+        'django.core.context_processors.tz',
+        'django.contrib.messages.context_processors.messages',
+        'templation.context_processor.templation_info'
+    )
+
     # Django-templation settings
     TEMPLATION_DAV_ROOT = os.path.join(BASE_DIR, '..', 'dav')  # Make sure you create this folder
     TEMPLATION_DAV_STATIC_URL = '/static_templation/'

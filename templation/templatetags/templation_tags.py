@@ -1,6 +1,9 @@
 from __future__ import absolute_import
 from django import template
 from django.conf import settings
+from django.db.models import Model
+from django.db.models.query import QuerySet
+from django.template import TemplateSyntaxError
 from django.templatetags.static import StaticNode
 from django.contrib.staticfiles.storage import staticfiles_storage
 from ..settings import DAV_STATIC_URL
@@ -55,3 +58,28 @@ def do_static(parser, token):
 
 def static(path):
     return templation_url(staticfiles_storage.url(path))
+
+
+@register.assignment_tag
+def get_model_info(thing):
+    if isinstance(thing, Model):
+        meta = thing._meta
+    elif isinstance(thing, QuerySet):
+        meta = thing.model._meta
+    else:
+        raise TemplateSyntaxError('Wrong paramer type for %s' % str(thing))
+
+    app_label = meta.app_label
+    model_name = getattr(meta, 'model_name', None) or \
+        getattr(meta, 'module_name').lower()  # meta.model_name is for Django < 1.6 compatibility
+
+    return {
+        'app_label': app_label,
+        'model_name': model_name,
+    }
+
+
+@register.assignment_tag(takes_context=True)
+def is_trusted_request(context):
+    request = context['request']
+    return request.META.get('REMOTE_ADDR') in settings.INTERNAL_IPS or (request.user.is_active and request.user.is_staff)
