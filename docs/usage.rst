@@ -454,9 +454,8 @@ This is an example template block showcasing the integration that can be achieve
 .. code-block:: django
 
     {% load templation_tags %}
-    {% is_trusted_request as show_this %}
 
-    {% if show_this %}
+    {% if is_trusted_request %}
     <div>
         {% if object %}
             {% get_model_info object as model_info %}
