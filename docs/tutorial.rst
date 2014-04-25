@@ -249,8 +249,10 @@ Create ResourceAccess
 
     >>> from templation.settings import get_resource_access_model
     >>> from django.contrib.auth import get_user_model
+    >>> from templation.models import ResourcePointer
     >>> from core.models import Theme
-    >>> get_resource_access_model().objects.create(user=get_user_model().objects.get(username='admin'), resource=Theme.objects.get(name='simple'))
+    >>> resource_pointer = ResourcePointer.objects.create(resource=Theme.objects.get(name='simple'))
+    >>> get_resource_access_model().objects.create(user=get_user_model().objects.get(username='admin'), resource_pointer=resource_pointer)
     <ResourceAccess: ResourceAccess object>
 
 

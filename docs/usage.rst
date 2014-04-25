@@ -408,7 +408,7 @@ The ``ResourceAccess`` (`RA`) object defines if a user can access a *WebDAV* fol
 
 ``ResourceAccess`` has two interesting properties:
 
-- ``is_validated`` field: Indicates if the customized resources will be available for everyone.
+- ``resource_pointer`` foreign key: Accesses the resource properties, where you have ``is_validated`` field, that indicates if the customized resources will be available for everyone.
 - ``get_access_token()`` method: Returns an access token that allows everyone to see the customized version for this resource.
 
 
