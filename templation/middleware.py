@@ -22,7 +22,7 @@ class TemplationDomainController(object):
     def authDomainUser(self, realmname, username, password, environ):
         user = authenticate(username=username, password=password)
         try:
-            return ResourceAccess.objects.get(user=user, resource__id=realmname)
+            return ResourceAccess.objects.get(user=user, resource_pointer__resource__id=realmname)
         except ResourceAccess.DoesNotExist:
             return False
 

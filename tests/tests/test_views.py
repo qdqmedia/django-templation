@@ -27,8 +27,8 @@ class TestIndex(BaseTest):
 
     def test_template_loader_user_logged_not_validated_resource(self):
         response = self.client.get('/index/{0}/'.format(self.resource.id), follow=True)
-        self.resource_access.is_validated = False
-        self.resource_access.save()
+        self.resource_pointer.is_validated = False
+        self.resource_pointer.save()
         self._assert_overriden(response)
 
     def test_template_loader_user_logged_not_resource_access(self):
@@ -43,15 +43,15 @@ class TestIndex(BaseTest):
 
     def test_template_loader_user_not_logged_not_validated_resource(self):
         self.client.logout()
-        self.resource_access.is_validated = False
-        self.resource_access.save()
+        self.resource_pointer.is_validated = False
+        self.resource_pointer.save()
         response = self.client.get('/index/{0}/'.format(self.resource.id), follow=True)
         self._assert_not_overriden(response)
 
     def test_template_loader_user_not_logged_not_validated_resource_accesstoken(self):
         self.client.logout()
-        self.resource_access.is_validated = False
-        self.resource_access.save()
+        self.resource_pointer.is_validated = False
+        self.resource_pointer.save()
         response = self.client.get('/index/{0}/?tt={1}'.format(self.resource.id, self.resource_access.get_access_token()), follow=True)
         self._assert_overriden(response)
 

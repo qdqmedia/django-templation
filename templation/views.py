@@ -219,7 +219,7 @@ def server_error(request, template_name='500.html'):
     exc_type, exc_value, exc_traceback = sys.exc_info()
     if getattr(settings, 'TEMPLATION_DEBUG', False) and \
        (exc_type.__name__ in DUMP_EXCEPTIONS) \
-       and get_resource_access_model().objects.filter(resource=thread_locals.resource):
+       and get_resource_access_model().objects.filter(resource_pointer__resource=thread_locals.resource):
         reporter = ExceptionReporter(request, exc_type, exc_value, exc_traceback)
 
         t = Template(TEMPLATION_500_TEMPLATE, name='Technical 500 template')

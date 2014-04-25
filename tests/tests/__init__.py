@@ -9,6 +9,7 @@ from django.contrib.auth import get_user_model
 from django.test.client import Client
 from webtest import TestApp
 from templation import settings
+from templation.models import ResourcePointer
 
 
 class SetUpFolders(unittest.TestCase):
@@ -37,16 +38,19 @@ class SetUpAccess(unittest.TestCase):
             base64.encodestring('john:secret').replace('\n', '')
 
         self.resource = settings.get_resource_model().objects.create(name='Foo', id=1234)
-        self.resource_access = settings.get_resource_access_model().objects.create(user=self.user, resource=self.resource, is_validated=True)
+        self.resource_pointer = ResourcePointer.objects.create(resource=self.resource, is_validated=True)
+        self.resource_access = settings.get_resource_access_model().objects.create(user=self.user,
+                                                                                   resource_pointer=self.resource_pointer)
 
         self.client = Client()
         self.client.login(username=self.user.username, password='secret')
         super(SetUpAccess, self).setUp()
 
     def tearDown(self):
-        self.user.delete()
         self.resource.delete()
+        self.resource_pointer.delete()
         self.resource_access.delete()
+        self.user.delete()
 
         super(SetUpAccess, self).tearDown()
 

@@ -16,13 +16,18 @@ from .settings import DAV_ROOT, PROVIDER_NAME, BOILERPLATE_INITIALIZER, \
 class ResourceAccessManager(models.Manager):
 
     def filter_validated(self, *args, **kwargs):
-        return self.filter(is_validated=True, *args, **kwargs)
+        return self.filter(resource_pointer__is_validated=True, *args, **kwargs)
+
+
+class ResourcePointer(models.Model):
+
+    resource = models.OneToOneField(get_resource_model())
+    is_validated = models.BooleanField(default=False)
 
 
 class AbstractResourceAccess(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    resource = models.ForeignKey(get_resource_model())
-    is_validated = models.BooleanField(default=False)
+    resource_pointer = models.ForeignKey(ResourcePointer)
 
     objects = ResourceAccessManager()
 
@@ -30,20 +35,19 @@ class AbstractResourceAccess(models.Model):
         abstract = True
         verbose_name = _('ResourceAccess')
         verbose_name_plural = _('ResourceAccesses')
-        unique_together = ('user', 'resource')
 
     def get_absolute_url(self):
         """Returns the WebDav path for this resource."""
 
-        return os.path.join('/' + PROVIDER_NAME, str(self.resource.id)) + '/'
+        return os.path.join('/' + PROVIDER_NAME, str(self.resource_pointer.resource.id)) + '/'
 
     def get_path(self, append=None):
         if append and not append.endswith('/'):
             append += '/'
-        return os.path.join(DAV_ROOT, str(self.resource.id), append)
+        return os.path.join(DAV_ROOT, str(self.resource_pointer.resource.id), append)
 
     def get_access_token(self):
-        return hmac.new(SECRET_KEY, str(self.resource.id), hashlib.sha1).hexdigest()
+        return hmac.new(SECRET_KEY, str(self.resource_pointer.resource.id), hashlib.sha1).hexdigest()
 
     def validate_access_token(self, token):
         return self.get_access_token() == token
@@ -70,7 +74,7 @@ def copy_boilerplate_folder(user_dir):
 def create_resource_access(sender, instance, created, **kwargs):
     if created:
         try:
-            user_dir = os.path.join(DAV_ROOT, str(instance.resource.id))
+            user_dir = os.path.join(DAV_ROOT, str(instance.resource_pointer.resource.id))
             # create in case neither folder or initializer are defined.
             os.makedirs(user_dir)
             import_from_path(BOILERPLATE_INITIALIZER)(user_dir)
