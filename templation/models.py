@@ -84,5 +84,5 @@ def create_resource_access(sender, instance, created, **kwargs):
 
 # When a custom ResourceAccess model is used, you also have to connect the signal
 # with your custom model.
-if not getattr(settings, 'TEMPLATION_RESOURCE_ACCESS_MODEL', True):
+if not getattr(settings, 'TEMPLATION_RESOURCE_ACCESS_MODEL', False):
     post_save.connect(create_resource_access, sender=get_resource_access_model())
