@@ -330,11 +330,13 @@ and make your custom one
 
 .. code-block :: python
 
-    from templation.models import AbstractResourceAccess
+    from templation.models import AbstractResourceAccess, create_resource_access
 
 
     class CustomResourceAccess(AbstractResourceAccess):
         """ django-templation """
+
+    post_save.connect(create_resource_access, sender=CustomResourceAccess)
 
 
 Restricting template tags and filters
