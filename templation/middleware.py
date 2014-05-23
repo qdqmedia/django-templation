@@ -4,8 +4,7 @@ from django.contrib.auth import authenticate
 from django.conf import settings
 from wsgidav.wsgidav_app import DEFAULT_CONFIG
 from wsgidav.wsgidav_app import WsgiDAVApp
-from .settings import DAV_ROOT, PROVIDER_NAME
-from .models import ResourceAccess
+from .settings import DAV_ROOT, PROVIDER_NAME, get_resource_access_model
 from .locals import thread_locals
 from .utils import get_class
 
@@ -22,8 +21,8 @@ class TemplationDomainController(object):
     def authDomainUser(self, realmname, username, password, environ):
         user = authenticate(username=username, password=password)
         try:
-            return ResourceAccess.objects.get(user=user, resource_pointer__resource__id=realmname)
-        except ResourceAccess.DoesNotExist:
+            return get_resource_access_model().objects.get(user=user, resource_pointer__resource__id=realmname)
+        except get_resource_access_model().DoesNotExist:
             return False
 
 config = DEFAULT_CONFIG.copy()
