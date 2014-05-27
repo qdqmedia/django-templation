@@ -13,7 +13,11 @@ from . import BaseTest
 class TestIndex(BaseTest):
 
     def _assert_overriden(self, response):
-        self.failUnless('<script src="{0}1234/js/main.js"></script>'.format(settings.TEMPLATION_DAV_STATIC_URL) in response.content)
+        self.failUnless(
+            '<script src="{0}1234/js/main.js"></script>'.format(
+                settings.TEMPLATION_DAV_STATIC_URL
+            ) in response.content
+        )
         self.assertEqual(response.status_code, 200)
         self.assertNotEquals(response.content, 'NOT OVERRIDEN\n')
 
@@ -22,56 +26,82 @@ class TestIndex(BaseTest):
         self.assertEquals(response.content, 'NOT OVERRIDEN\n')
 
     def test_template_loader_user_logged_validated_resource(self):
-        response = self.client.get('/index/{0}/'.format(self.resource.id), follow=True)
+        response = self.client.get(
+            '/index/{0}/'.format(self.resource.id), follow=True
+        )
         self._assert_overriden(response)
 
     def test_template_loader_user_logged_not_validated_resource(self):
-        response = self.client.get('/index/{0}/'.format(self.resource.id), follow=True)
+        response = self.client.get(
+            '/index/{0}/'.format(self.resource.id), follow=True
+        )
         self.resource_pointer.is_validated = False
         self.resource_pointer.save()
         self._assert_overriden(response)
 
     def test_template_loader_user_logged_not_resource_access(self):
         resource = get_resource_model().objects.create(name='Bar', id=6789)
-        response = self.client.get('/index/{0}/'.format(resource.id), follow=True)
+        response = self.client.get(
+            '/index/{0}/'.format(resource.id), follow=True
+        )
         self._assert_not_overriden(response)
 
     def test_template_loader_user_not_logged_validated_resource(self):
         self.client.logout()
-        response = self.client.get('/index/{0}/'.format(self.resource.id), follow=True)
+        response = self.client.get(
+            '/index/{0}/'.format(self.resource.id), follow=True
+        )
         self._assert_overriden(response)
 
     def test_template_loader_user_not_logged_not_validated_resource(self):
         self.client.logout()
         self.resource_pointer.is_validated = False
         self.resource_pointer.save()
-        response = self.client.get('/index/{0}/'.format(self.resource.id), follow=True)
+        response = self.client.get(
+            '/index/{0}/'.format(self.resource.id), follow=True
+        )
         self._assert_not_overriden(response)
 
     def test_template_loader_user_not_logged_not_validated_resource_accesstoken(self):
         self.client.logout()
         self.resource_pointer.is_validated = False
         self.resource_pointer.save()
-        response = self.client.get('/index/{0}/?tt={1}'.format(self.resource.id, self.resource_access.get_access_token()), follow=True)
+        response = self.client.get(
+            '/index/{0}/?tt={1}'.format(
+                self.resource.id,
+                self.resource_access.get_access_token()
+            ),
+            follow=True
+        )
         self._assert_overriden(response)
 
     def test_template_loader_user_not_logged_not_resource_access_invalidtoken(self):
         self.client.logout()
         resource = get_resource_model().objects.create(name='Bar', id=67889)
-        response = self.client.get('/index/{0}/?tt={1}'.format(resource.id, 'b4343dasads32423423d32'), follow=True)
+        response = self.client.get(
+            '/index/{0}/?tt={1}'.format(
+                resource.id, 'b4343dasads32423423d32'),
+            follow=True
+        )
         self._assert_not_overriden(response)
 
     def test_template_loader_user_not_logged_not_resource_access(self):
         self.client.logout()
         resource = get_resource_model().objects.create(name='Bar', id=6780)
-        response = self.client.get('/index/{0}/'.format(resource.id), follow=True)
+        response = self.client.get(
+            '/index/{0}/'.format(resource.id), follow=True
+        )
         self._assert_not_overriden(response)
 
     def test_cbv_template_loader(self):
         response = self.client.get('/cbv_index/{0}/'.format(self.resource.id),
                                    follow=True)
         self.assertEqual(response.status_code, 200)
-        self.failUnless('<script src="{0}1234/js/main.js"></script>'.format(settings.TEMPLATION_DAV_STATIC_URL) in response.content)
+        self.failUnless(
+            '<script src="{0}1234/js/main.js"></script>'.format(
+                settings.TEMPLATION_DAV_STATIC_URL
+            ) in response.content
+        )
         self.assertNotEquals(response.content, 'NOT OVERRIDEN\n')
 
     def _expect_fail(self):
@@ -81,15 +111,23 @@ class TestIndex(BaseTest):
         self.assertRaises(TemplateSyntaxError, self._expect_fail)
 
     def test_public_connection(self):
-        response = self.client.get('/public_connection/'.format(self.resource.id),
-                                   follow=True)
+        response = self.client.get(
+            '/public_connection/'.format(
+                self.resource.id
+            ),
+            follow=True
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_extension_and_inclusion(self):
         response = self.client.get('/extended/{0}/'.format(self.resource.id),
                                    follow=True)
         self.assertEqual(response.status_code, 200)
-        self.failUnless('included.html'.format(settings.TEMPLATION_DAV_STATIC_URL) in response.content)
+        self.failUnless(
+            'included.html'.format(
+                settings.TEMPLATION_DAV_STATIC_URL
+            ) in response.content
+        )
         self.assertNotEquals(response.content, 'NOT OVERRIDEN\n')
 
 
@@ -100,9 +138,14 @@ class TestStaticView(BaseTest):
         self.factory = RequestFactory()
 
     def test_static_view(self):
-        request = self.factory.get('/templation/1234')  # Path is really irrelevant here
-        view = static_view(request, '1234', 'js/main.js', settings.TEMPLATION_DAV_ROOT)
-        self.assertEqual(view.content, "function hello_world() {\n\tconsole.log('hello_world');\n};\n")
+        # Path is really irrelevant here
+        request = self.factory.get('/templation/1234')
+        view = static_view(request, '1234', 'js/main.js',
+                           settings.TEMPLATION_DAV_ROOT)
+        self.assertEqual(
+            view.content,
+            "function hello_world() {\n\tconsole.log('hello_world');\n};\n"
+        )
 
 
 class Test500View(BaseTest):
@@ -115,7 +158,8 @@ class Test500View(BaseTest):
         try:
             raise ValueError('test')
         except ValueError:
-            request = self.factory.get('/index/{0}/'.format(self.resource.id), follow=True)
+            request = self.factory.get('/index/{0}/'.format(self.resource.id),
+                                       follow=True)
             view = server_error(request)
             self.assertEqual(view.content, '<h1>Server Error (500)</h1>')
 
@@ -123,7 +167,8 @@ class Test500View(BaseTest):
         try:
             raise TemplateSyntaxError('test')
         except TemplateSyntaxError:
-            request = self.factory.get('/index/{0}/'.format(self.resource.id), follow=True)
+            request = self.factory.get('/index/{0}/'.format(self.resource.id),
+                                       follow=True)
             request.user = self.user
             thread_locals.resource = self.resource
             view = server_error(request)

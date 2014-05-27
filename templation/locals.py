@@ -5,7 +5,6 @@ Common entry point to store variables inside threads.
 """
 from __future__ import absolute_import
 from threading import local, current_thread
-from django.shortcuts import get_object_or_404
 from .settings import get_resource_model
 from django.contrib.auth.models import AnonymousUser
 
@@ -20,8 +19,10 @@ class LocalsManager(object):
 
     >>> from templation.locals import thread_locals
 
-    >>> thread_locals.resource = primary_key  # noqa this should fetch the instance and keep_it
-    >>> thread_locals.resource = resource_instance  # noqa This prevents double fetch.
+    >>> thread_locals.resource = primary_key  # noqa this should fetch the
+                                              # instance and keep_it
+    >>> thread_locals.resource = resource_instance  # noqa This prevents
+                                                    # double fetch.
     """
 
     def __init__(self):
@@ -40,7 +41,8 @@ class LocalsManager(object):
 
     @property
     def user(self):
-        return self.__locals__.user if getattr(self.__locals__, 'user', None) else AnonymousUser()
+        return self.__locals__.user if getattr(self.__locals__, 'user', None) \
+            else AnonymousUser()
 
     @user.setter
     def user(self, value):
