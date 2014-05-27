@@ -9,14 +9,15 @@ from django.db.models.signals import post_save
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from .settings import DAV_ROOT, PROVIDER_NAME, BOILERPLATE_INITIALIZER, \
-    get_resource_model, get_resource_access_model, BOILERPLATE_FOLDER, import_from_path, \
-    SECRET_KEY
+    get_resource_model, get_resource_access_model, BOILERPLATE_FOLDER, \
+    import_from_path, SECRET_KEY
 
 
 class ResourceAccessManager(models.Manager):
 
     def filter_validated(self, *args, **kwargs):
-        return self.filter(resource_pointer__is_validated=True, *args, **kwargs)
+        return self.filter(resource_pointer__is_validated=True,
+                           *args, **kwargs)
 
 
 class ResourcePointer(models.Model):
@@ -39,15 +40,18 @@ class AbstractResourceAccess(models.Model):
     def get_absolute_url(self):
         """Returns the WebDav path for this resource."""
 
-        return os.path.join('/' + PROVIDER_NAME, str(self.resource_pointer.resource.id)) + '/'
+        return os.path.join('/' + PROVIDER_NAME,
+                            str(self.resource_pointer.resource.id)) + '/'
 
     def get_path(self, append=None):
         if append and not append.endswith('/'):
             append += '/'
-        return os.path.join(DAV_ROOT, str(self.resource_pointer.resource.id), append)
+        return os.path.join(DAV_ROOT, str(self.resource_pointer.resource.id),
+                            append)
 
     def get_access_token(self):
-        return hmac.new(SECRET_KEY, str(self.resource_pointer.resource.id), hashlib.sha1).hexdigest()
+        return hmac.new(SECRET_KEY, str(self.resource_pointer.resource.id),
+                        hashlib.sha1).hexdigest()
 
     def validate_access_token(self, token):
         return self.get_access_token() == token
@@ -68,13 +72,17 @@ def copy_boilerplate_folder(user_dir):
         shutil.rmtree(user_dir)  # copytree needs to create the dir...
         shutil.copytree(BOILERPLATE_FOLDER, user_dir)
     elif BOILERPLATE_FOLDER:   # pragma no cover
-        raise ValueError('{0} is not a valid directory'.format(BOILERPLATE_FOLDER))
+        raise ValueError(
+            '{0} is not a valid directory'.format(BOILERPLATE_FOLDER)
+        )
 
 
 def create_resource_access(sender, instance, created, **kwargs):
     if created:
         try:
-            user_dir = os.path.join(DAV_ROOT, str(instance.resource_pointer.resource.id))
+            user_dir = os.path.join(
+                DAV_ROOT, str(instance.resource_pointer.resource.id)
+            )
             # create in case neither folder or initializer are defined.
             os.makedirs(user_dir)
             import_from_path(BOILERPLATE_INITIALIZER)(user_dir)
@@ -82,7 +90,8 @@ def create_resource_access(sender, instance, created, **kwargs):
             if e.errno != 17:
                 raise
 
-# When a custom ResourceAccess model is used, you also have to connect the signal
-# with your custom model.
+# When a custom ResourceAccess model is used, you also have to connect the
+# signal with your custom model.
 if not getattr(settings, 'TEMPLATION_RESOURCE_ACCESS_MODEL', False):
-    post_save.connect(create_resource_access, sender=get_resource_access_model())
+    post_save.connect(create_resource_access,
+                      sender=get_resource_access_model())

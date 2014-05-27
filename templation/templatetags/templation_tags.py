@@ -70,8 +70,9 @@ def get_model_info(thing):
         raise TemplateSyntaxError('Wrong paramer type for %s' % str(thing))
 
     app_label = meta.app_label
+    # meta.model_name is for Django < 1.6 compatibility
     model_name = getattr(meta, 'model_name', None) or \
-        getattr(meta, 'module_name').lower()  # meta.model_name is for Django < 1.6 compatibility
+        getattr(meta, 'module_name').lower()
 
     return {
         'app_label': app_label,
@@ -82,4 +83,5 @@ def get_model_info(thing):
 @register.assignment_tag(takes_context=True)
 def is_trusted_request(context):
     request = context['request']
-    return request.META.get('REMOTE_ADDR') in settings.INTERNAL_IPS or (request.user.is_active and request.user.is_staff)
+    return request.META.get('REMOTE_ADDR') in settings.INTERNAL_IPS or \
+        (request.user.is_active and request.user.is_staff)

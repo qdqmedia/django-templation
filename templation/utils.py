@@ -2,7 +2,8 @@
 from django.utils.functional import wraps
 from django import template
 from .locals import thread_locals
-from .settings import get_resource_access_model, WHITELIST_TAGS, WHITELIST_FILTERS, EXTRA_LIBRARIES
+from .settings import get_resource_access_model, WHITELIST_TAGS, \
+    WHITELIST_FILTERS, EXTRA_LIBRARIES
 from importlib import import_module
 
 
@@ -14,14 +15,21 @@ def will_override():
     """
     _access = get_resource_access_model()
     try:
-        resource_access = _access.objects.filter(resource_pointer__resource=thread_locals.resource)[:1][0]
+        resource_access = _access.objects.filter(
+            resource_pointer__resource=thread_locals.resource)[:1][0]
     except IndexError:
         resource_access = None
-    ret_value = (resource_access and
-                (resource_access.resource_pointer.is_validated or
-                (resource_access.validate_access_token(thread_locals.token)) or
-                (thread_locals.user.is_staff and _access.objects.filter(user=thread_locals.user,
-                                                                        resource_pointer__resource=thread_locals.resource))))
+    ret_value = (
+        resource_access and (
+            resource_access.resource_pointer.is_validated or (
+                resource_access.validate_access_token(thread_locals.token)
+            ) or (
+                thread_locals.user.is_staff and _access.objects.filter(
+                    user=thread_locals.user,
+                    resource_pointer__resource=thread_locals.resource)
+            )
+        )
+    )
     return (ret_value, resource_access)
 
 
@@ -30,8 +38,8 @@ def will_override():
 
 def use_safe_templates(tags=None, filters=None, extra=None):
     """
-    Cleans the builtin template libraries before running the function (restoring
-    the builtins afterwards).
+    Cleans the builtin template libraries before running the function
+    (restoring the builtins afterwards).
 
     Removes any builtin tags and filters that are not enumerated in `tags` and
     `filters`, and adds the extra library modules in `extra` to the builtins.
@@ -43,8 +51,9 @@ def use_safe_templates(tags=None, filters=None, extra=None):
         @wraps(func)
         def wrapped(*args, **kwargs):
             # Clean out default libraries
-            # Note: template.builtins is merely a convenience import, we have to work
-            # with template.base.builtins for this to work right.
+            # Note: template.builtins is merely a convenience import,
+            # we have to work with template.base.builtins for this to
+            # work right.
             template.base.builtins, default_libs = [], template.base.builtins
             try:
                 # Construct new builtin with only whitelisted tags/filters

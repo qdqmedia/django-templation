@@ -19,7 +19,8 @@ def templation_static(**kwargs):
         'document_root': DAV_ROOT
     })
 
-    return patterns('',
-        url(r'{0}/(?P<resource_id>\d+)/(?P<path>.*)$'.format(DAV_STATIC_URL.strip('/')),
-            static_view, kwargs=kwargs),
+    return patterns(
+        '',
+        url(r'{0}/(?P<resource_id>\d+)/(?P<path>.*)$'.format(
+            DAV_STATIC_URL.strip('/')), static_view, kwargs=kwargs),
     )

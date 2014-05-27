@@ -36,7 +36,6 @@ class TestTemplationTemplateTags(BaseTest):
             lambda: get_model_info(object()),
         )
 
-
     def test_is_trusted_request(self):
         user = User(username='test_user', is_active=True, is_staff=True)
         request = HttpRequest()
@@ -51,4 +50,3 @@ class TestTemplationTemplateTags(BaseTest):
         self.assertFalse(is_trusted_request(context))
         request.META['REMOTE_ADDR'] = '1.2.3.4'
         self.assertFalse(is_trusted_request(context))
-

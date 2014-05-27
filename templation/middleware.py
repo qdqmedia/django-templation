@@ -21,7 +21,10 @@ class TemplationDomainController(object):
     def authDomainUser(self, realmname, username, password, environ):
         user = authenticate(username=username, password=password)
         try:
-            return get_resource_access_model().objects.get(user=user, resource_pointer__resource__id=realmname)
+            return get_resource_access_model().objects.get(
+                user=user,
+                resource_pointer__resource__id=realmname
+            )
         except get_resource_access_model().DoesNotExist:
             return False
 
@@ -42,7 +45,8 @@ class WsgiDAVMiddleware(object):
         self.django_app = django_app
 
     def __call__(self, environ, start_response):
-        if environ.get('PATH_INFO').startswith('/' + PROVIDER_NAME.strip('/') + '/'):
+        if environ.get('PATH_INFO').startswith('/' + PROVIDER_NAME.strip('/') +
+                                               '/'):
             return wsgidav_app(environ, start_response)
         return self.django_app(environ, start_response)
 
@@ -51,7 +55,8 @@ class TemplationMiddleware(object):
 
     def process_request(self, request):
         thread_locals.user = getattr(request, 'user', None)
-        thread_locals.token = request.GET.get('tt', '') or request.COOKIES.get('tt', '')
+        thread_locals.token = request.GET.get('tt', '') or \
+            request.COOKIES.get('tt', '')
 
     def process_response(self, request, response):
         if thread_locals.token:
@@ -63,8 +68,10 @@ class TemplationMiddleware(object):
         thread_locals.clear()  # leave a clean state
 
     def process_view(self, request, view_func, view_args, view_kwargs):
-        if request.META.get('REMOTE_ADDR') in settings.INTERNAL_IPS or (request.user.is_active and request.user.is_staff):
-            request._templation_view = "{0}.{1}".format(view_func.__module__, view_func.__name__)
+        if request.META.get('REMOTE_ADDR') in settings.INTERNAL_IPS \
+           or (request.user.is_active and request.user.is_staff):
+            request._templation_view = "{0}.{1}".format(view_func.__module__,
+                                                        view_func.__name__)
             try:
                 view_cls = get_class(view_func.__module__, view_func.__name__)
             except ImportError:

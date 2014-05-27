@@ -1,5 +1,6 @@
 """
-Mixin to add in your CCBV to store the object.pk as resource to be fetched in the template.
+Mixin to add in your CCBV to store the object.pk as resource to be fetched in
+the template.
 """
 from __future__ import absolute_import
 import sys
@@ -26,12 +27,14 @@ class ResourceStoreMixin(object):
         return getattr(self, 'object', getattr(kwargs, 'pk', None))
 
     def dispatch(self, request, *args, **kwargs):
-        context = super(ResourceStoreMixin, self).dispatch(request, *args, **kwargs)
+        context = super(ResourceStoreMixin, self).dispatch(request, *args,
+                                                           **kwargs)
         thread_locals.resource = self.get_templation_object(**kwargs)
         return context
 
 
-def static_view(request, resource_id, path, document_root=None, show_indexes=False):
+def static_view(request, resource_id, path, document_root=None,
+                show_indexes=False):
     """
     Composition to return the static in development
     """
@@ -45,7 +48,13 @@ TEMPLATION_500_TEMPLATE = """
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="robots" content="NONE,NOARCHIVE">
-  <title>{% if exception_type %}{{ exception_type }}{% else %}Report{% endif %}{% if request %} at {{ request.path_info|escape }}{% endif %}</title>
+  <title>
+    {% if exception_type %}
+        {{ exception_type }}
+    {% else %}
+        Report
+    {% endif %}
+    {% if request %} at {{ request.path_info|escape }}{% endif %}</title>
   <style type="text/css">
     html * { padding:0; margin:0; }
     body * { padding:10px 20px; }
@@ -58,22 +67,29 @@ TEMPLATION_500_TEMPLATE = """
     h3 { margin:1em 0 .5em 0; }
     h4 { margin:0 0 .5em 0; font-weight: normal; }
     code, pre { font-size: 100%; white-space: pre-wrap; }
-    table { border:1px solid #ccc; border-collapse: collapse; width:100%; background:white; }
+    table { border:1px solid #ccc;
+            border-collapse: collapse;
+            width:100%;
+            background:white; }
     tbody td, tbody th { vertical-align:top; padding:2px 3px; }
-    thead th { padding:1px 6px 1px 3px; background:#fefefe; text-align:left; font-weight:normal; font-size:11px; border:1px solid #ddd; }
+    thead th { padding:1px 6px 1px 3px; background:#fefefe; text-align:left;
+               font-weight:normal; font-size:11px; border:1px solid #ddd; }
     tbody th { width:12em; text-align:right; color:#666; padding-right:.5em; }
     table.vars { margin:5px 0 2px 40px; }
     table.vars td, table.req td { font-family:monospace; }
     table td.code { width:100%; }
     table td.code pre { overflow:hidden; }
     table.source th { color:#666; }
-    table.source td { font-family:monospace; white-space:pre; border-bottom:1px solid #eee; }
+    table.source td { font-family:monospace; white-space:pre;
+                      border-bottom:1px solid #eee; }
     ul.traceback { list-style-type:none; color: #222; }
     ul.traceback li.frame { padding-bottom:1em; color:#666; }
     ul.traceback li.user { background-color:#e0e0e0; color:#000 }
     div.context { padding:10px 0; overflow:hidden; }
-    div.context ol { padding-left:30px; margin:0 10px; list-style-position: inside; }
-    div.context ol li { font-family:monospace; white-space:pre; color:#777; cursor:pointer; }
+    div.context ol { padding-left:30px; margin:0 10px;
+                     list-style-position: inside; }
+    div.context ol li { font-family:monospace; white-space:pre; color:#777;
+                        cursor:pointer; }
     div.context ol li pre { display:inline; }
     div.context ol.context-line li { color:#505050; background-color:#dfdfdf; }
     div.context ol.context-line li span { position:absolute; right:32px; }
@@ -97,13 +113,15 @@ TEMPLATION_500_TEMPLATE = """
     .specific { color:#cc3300; font-weight:bold; }
     h2 span.commands { font-size:.7em;}
     span.commands a:link {color:#5E5694;}
-    pre.exception_value { font-family: sans-serif; color: #666; font-size: 1.5em; margin: 10px 0 10px 0; }
+    pre.exception_value { font-family: sans-serif; color: #666;
+                          font-size: 1.5em; margin: 10px 0 10px 0; }
   </style>
   {% if not is_email %}
   <script type="text/javascript">
   //<!--
     function getElementsByClassName(oElm, strTagName, strClassName){
-        // Written by Jonathan Snook, http://www.snook.ca/jon; Add-ons by Robert Nyman, http://www.robertnyman.com
+        // Written by Jonathan Snook, http://www.snook.ca/jon;
+        // Add-ons by Robert Nyman, http://www.robertnyman.com
         var arrElements = (strTagName == "*" && document.all)? document.all :
         oElm.getElementsByTagName(strTagName);
         var arrReturnElements = new Array();
@@ -159,13 +177,24 @@ TEMPLATION_500_TEMPLATE = """
 </head>
 <body>
 <div id="summary">
-  <h1>{% if exception_type %}{{ exception_type }}{% else %}Report{% endif %}{% if request %} at {{ request.path_info|escape }}{% endif %}</h1>
-  <pre class="exception_value">{% if exception_value %}{{ exception_value|force_escape }}{% else %}No exception message supplied{% endif %}</pre>
+  <h1>
+    {% if exception_type %}
+        {{ exception_type }}
+    {% else %}
+        Report
+    {% endif %}
+    {% if request %} at {{ request.path_info|escape }}{% endif %}</h1>
+  <pre class="exception_value">
+    {% if exception_value %}
+        {{ exception_value|force_escape }}
+    {% else %}No exception message supplied{% endif %}
+  </pre>
 </div>
 {% if unicode_hint %}
 <div id="unicode-hint">
     <h2>Unicode error hint</h2>
-    <p>The string that could not be encoded/decoded was: <strong>{{ unicode_hint|force_escape }}</strong></p>
+    <p>The string that could not be encoded/decoded was:
+    <strong>{{ unicode_hint|force_escape }}</strong></p>
 </div>
 {% endif %}
 {% if template_does_not_exist %}
@@ -177,26 +206,38 @@ TEMPLATION_500_TEMPLATE = """
         {% for loader in loader_debug_info %}
             <li>Using loader <code>{{ loader.loader }}</code>:
                 <ul>
-                {% for t in loader.templates %}<li><code>{{ t.name }}</code> ({{ t.status }})</li>{% endfor %}
+                    {% for t in loader.templates %}
+                        <li><code>{{ t.name }}</code> ({{ t.status }})</li>
+                    {% endfor %}
                 </ul>
             </li>
         {% endfor %}
         </ul>
     {% else %}
-        <p>Django couldn't find any templates because your <code>TEMPLATE_LOADERS</code> setting is empty!</p>
+        <p>Django couldn't find any templates because your
+        <code>TEMPLATE_LOADERS</code> setting is empty!</p>
     {% endif %}
 </div>
 {% endif %}
 {% if template_info %}
 <div id="template">
    <h2>Error during template rendering</h2>
-   <p>In template <code>{{ template_info.name }}</code>, error at line <strong>{{ template_info.line }}</strong></p>
+   <p>In template <code>{{ template_info.name }}</code>,
+   error at line <strong>{{ template_info.line }}</strong></p>
    <h3>{{ template_info.message }}</h3>
-   <table class="source{% if template_info.top %} cut-top{% endif %}{% ifnotequal template_info.bottom template_info.total %} cut-bottom{% endifnotequal %}">
+   <table class="source{% if template_info.top %} cut-top{% endif %}
+   {% ifnotequal template_info.bottom template_info.total %}
+      cut-bottom{% endifnotequal %}">
    {% for source_line in template_info.source_lines %}
    {% ifequal source_line.0 template_info.line %}
        <tr class="error"><th>{{ source_line.0 }}</th>
-       <td>{{ template_info.before }}<span class="specific">{{ template_info.during }}</span>{{ template_info.after }}</td></tr>
+           <td>
+            {{ template_info.before }}
+            <span class="specific">
+                {{ template_info.during }}
+            </span>{{ template_info.after }}
+            </td>
+        </tr>
    {% else %}
       <tr><th>{{ source_line.0 }}</th>
       <td>{{ source_line.1 }}</td></tr>
@@ -219,8 +260,10 @@ def server_error(request, template_name='500.html'):
     exc_type, exc_value, exc_traceback = sys.exc_info()
     if getattr(settings, 'TEMPLATION_DEBUG', False) and \
        (exc_type.__name__ in DUMP_EXCEPTIONS) \
-       and get_resource_access_model().objects.filter(resource_pointer__resource=thread_locals.resource):
-        reporter = ExceptionReporter(request, exc_type, exc_value, exc_traceback)
+       and get_resource_access_model().objects.filter(
+            resource_pointer__resource=thread_locals.resource):
+        reporter = ExceptionReporter(request, exc_type, exc_value,
+                                     exc_traceback)
 
         t = Template(TEMPLATION_500_TEMPLATE, name='Technical 500 template')
         c = Context(reporter.get_traceback_data(), use_l10n=False)

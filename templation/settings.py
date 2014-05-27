@@ -18,17 +18,24 @@ def import_from_path(import_string):
 try:
     DAV_ROOT = settings.TEMPLATION_DAV_ROOT
 except AttributeError:  # pragma no cover
-    raise ImproperlyConfigured('You need to set TEMPLATION_DAV_ROOT in settings.py')
+    raise ImproperlyConfigured(
+        'You need to set TEMPLATION_DAV_ROOT in settings.py'
+    )
 
 try:
     DAV_STATIC_URL = settings.TEMPLATION_DAV_STATIC_URL
 except AttributeError:  # pragma no cover
-    raise ImproperlyConfigured('You need to set TEMPLATION_DAV_STATIC_URL in settings.py')
+    raise ImproperlyConfigured(
+        'You need to set TEMPLATION_DAV_STATIC_URL in settings.py'
+    )
 
 try:
     RESOURCE_MODEL = settings.TEMPLATION_RESOURCE_MODEL
 except AttributeError:  # pragma no cover
-    raise ImproperlyConfigured('You have to define TEMPLATION_RESOURCE_MODEL = "yourapp.models.YourModel" in settings.py')
+    raise ImproperlyConfigured(
+        'You have to define TEMPLATION_RESOURCE_MODEL'
+        ' = "yourapp.models.YourModel" in settings.py'
+    )
 
 # WebDav settings
 PROVIDER_NAME = getattr(settings, 'TEMPLATION_PROVIDER_NAME', 'templation')
@@ -58,24 +65,28 @@ DEFAULT_WHITELIST_TAGS = [
     'ifchanged', 'now', 'regroup', 'spaceless', 'templatetag', 'url',
     'widthratio', 'with', 'extends', 'include', 'block'
 ]
-WHITELIST_TAGS = getattr(settings, 'TEMPLATION_WHITELIST_TAGS', DEFAULT_WHITELIST_TAGS)
+WHITELIST_TAGS = getattr(settings, 'TEMPLATION_WHITELIST_TAGS',
+                         DEFAULT_WHITELIST_TAGS)
 
 # Default filter whitelist
 DEFAULT_WHITELIST_FILTERS = [
     'add', 'addslashes', 'capfirst', 'center', 'cut', 'date', 'default',
     'default_if_none', 'dictsort', 'dictsortreversed', 'divisibleby', 'escape',
     'escapejs', 'filesizeformat', 'first', 'fix_ampersands', 'floatformat',
-    'force_escape', 'get_digit', 'iriencode', 'join', 'last', 'length', 'length_is',
-    'linebreaks', 'linebreaksbr', 'linenumbers', 'ljust', 'lower', 'make_list',
-    'phone2numeric', 'pluralize', 'pprint', 'random', 'removetags', 'rjust', 'safe',
-    'safeseq', 'slice', 'slugify', 'stringformat', 'striptags', 'time', 'timesince',
-    'timeuntil', 'title', 'truncatewords', 'truncatewords_html', 'unordered_list',
-    'upper', 'urlencode', 'urlize', 'urlizetrunc', 'wordcount', 'wordwrap', 'yesno'
+    'force_escape', 'get_digit', 'iriencode', 'join', 'last', 'length',
+    'length_is', 'linebreaks', 'linebreaksbr', 'linenumbers', 'ljust', 'lower',
+    'make_list', 'phone2numeric', 'pluralize', 'pprint', 'random',
+    'removetags', 'rjust', 'safe', 'safeseq', 'slice', 'slugify',
+    'stringformat', 'striptags', 'time', 'timesince', 'timeuntil', 'title',
+    'truncatewords', 'truncatewords_html', 'unordered_list', 'upper',
+    'urlencode', 'urlize', 'urlizetrunc', 'wordcount', 'wordwrap', 'yesno'
 ]
-WHITELIST_FILTERS = getattr(settings, 'TEMPLATION_WHITELIST_FILTERS', DEFAULT_WHITELIST_FILTERS)
+WHITELIST_FILTERS = getattr(settings, 'TEMPLATION_WHITELIST_FILTERS',
+                            DEFAULT_WHITELIST_FILTERS)
 
 # Custom libraries to add to builtins
 DEFAULT_EXTRA_LIBRARIES = [
     'templation.templatetags.templation_tags',
 ]
-EXTRA_LIBRARIES = getattr(settings, 'TEMPLATION_EXTRA_LIBRARIES', DEFAULT_EXTRA_LIBRARIES)
+EXTRA_LIBRARIES = getattr(settings, 'TEMPLATION_EXTRA_LIBRARIES',
+                          DEFAULT_EXTRA_LIBRARIES)

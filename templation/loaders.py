@@ -20,11 +20,12 @@ class TemplationLoader(Loader):
             path = resource_access.get_path('templates')
             template_dirs = (path,) + (template_dirs or ())
 
-        return super(TemplationLoader, self).get_template_sources(template_name,
-                                                                  template_dirs)
+        return super(TemplationLoader, self).get_template_sources(
+            template_name, template_dirs)
 
     def load_template(self, template_name, template_dirs=None):
-        source, origin = self.load_template_source(template_name, template_dirs)
+        source, origin = self.load_template_source(
+            template_name, template_dirs)
         override, _ = will_override()
         if SANDBOX and override:
             template = use_safe_templates(Template)(source)
