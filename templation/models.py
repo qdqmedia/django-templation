@@ -36,6 +36,7 @@ class AbstractResourceAccess(models.Model):
         abstract = True
         verbose_name = _('ResourceAccess')
         verbose_name_plural = _('ResourceAccesses')
+        unique_together = ('user', 'resource_pointer')
 
     def get_absolute_url(self):
         """Returns the WebDav path for this resource."""
@@ -67,7 +68,6 @@ def copy_boilerplate_folder(user_dir):
     `settings.TEMPLATION_BOILERPLATE_FOLDER` to the newly created folder.
     Overridable function with `settings.TEMPLATION_BOILERPLATE_INITIALIZER`.
     """
-
     if os.path.isdir(BOILERPLATE_FOLDER):
         shutil.rmtree(user_dir)  # copytree needs to create the dir...
         shutil.copytree(BOILERPLATE_FOLDER, user_dir)

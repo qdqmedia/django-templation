@@ -1,6 +1,14 @@
 from __future__ import absolute_import
 from django.contrib import admin
 from .settings import get_resource_access_model
+from templation.models import ResourcePointer
+
+
+class ResourcePointerAdmin(admin.ModelAdmin):
+    model = ResourcePointer
+    list_display = ('resource', 'is_validated')
+
+admin.site.register(ResourcePointer, ResourcePointerAdmin)
 
 
 class ResourceAccessAdmin(admin.ModelAdmin):

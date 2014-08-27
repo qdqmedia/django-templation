@@ -14,3 +14,12 @@ History
 * Bug fixes:
 
   - Fixed import error when using a Custom Resource Access Model
+
+0.1.2 (2014-08-27)
+++++++++++++++++++
+
+* Bug fixes:
+
+  - Templation is usable from admin
+
+  - Restricted to one ResourceAccess with same User and ResourcePointer
